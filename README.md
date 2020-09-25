@@ -4,6 +4,6 @@ This project translates data from an HCSRN-VDW into an OHDSI-OMOP common data mo
 In order to run this code you will need an HCSRN VDW Common Data Model.
 For background on the history of Common Data Models
 
-The order of operations are:
+## The order of operations are:
 - Download OHDSI OMOP CDM
   - 
