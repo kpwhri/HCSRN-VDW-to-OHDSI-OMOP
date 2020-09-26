@@ -1,0 +1,63 @@
+/*********************************************
+* Program:  tt_xwalks.sas
+* John Weeks
+* Kaiser Permanente Washington Health Research Institute
+* (206) 287-2711
+* John.M.Weeks@kp.org
+*
+*
+*
+* Purpose:: Load Excel Files generated from HCSRN Lab Results Workgroup into RCM
+* Date Created:: 9/2/2020
+*********************************************/
+
+/* remove personal login for production */
+%include "\\home.ghc.org\home$\weekjm1\sas\scripts\sasntlogon.sas";
+%include "&GHRIDW_ROOT.\remote\RemoteStart.sas";
+
+/* VDW Standard Variables */
+%include "&GHRIDW_ROOT.\Sasdata\CRN_VDW\lib\StdVars.sas";
+
+/* RCM Standard Variables */
+%include "&GHRIDW_ROOT.\Sasdata\CRN_VDW\lib\StdVars_RCMandCNTRS.sas";
+
+/* SAS Prefix Sync Macros */
+%include "&GHRIDW_ROOT.\management\Programs\DataWarehouseMgt\prefix_sync_macros.sas";
+
+/* Debug Options */
+options nocenter missing='~' errorabend errors=1
+formchar  = '|-++++++++++=|-/|<>*'
+macrogen symbolgen mprint mlogic linesize  = 132
+noquotelenmax ;
+
+/* root folder */
+%let  code_home =&GHRIDW_ROOT\management\Programs\CRN_VDW\lab\supporting_files\test_type\;
+
+/* sas dataset folder */
+libname sdata "&code_home.sasdata";
+%let xwlkdir=&code_home.xwalk\;
+%let progdir=&code_home.sasprog\;
+
+%make_spm_comment('build test type crosswalks');
+
+/* Extract Data From Excel files */
+proc import out=sdata.lab_test_type
+  datafile="&xwlkdir.Test_Type_Descr.xlsx"
+  dbms=xlsx replace;
+  sheet="TestTypes";
+run;
+
+proc import out=sdata.lab_tt2lnc
+  datafile="&xwlkdir.Test_Type_to_LOINC.xlsx"
+  dbms=xlsx replace;
+  sheet="TT2LNC";
+run;
+
+
+/* Move Test Type Descriptions to Teradata */
+%movepx_to_teradata(lab_test_type, sdata, prefix=xwalk, save_backup=false);
+run;
+
+/* Move Test Type Loinc XWalk to Teradata */
+%movepx_to_teradata(lab_tt2lnc, sdata, prefix=xwalk, save_backup=false);
+run;

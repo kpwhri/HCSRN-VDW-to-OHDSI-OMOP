@@ -1,0 +1,136 @@
+1                                           The SAS System          20:41 Thursday, September 24, 2020
+
+NOTE: Copyright (c) 2002-2012 by SAS Institute Inc., Cary, NC, USA. 
+NOTE: SAS (r) Proprietary Software 9.4 (TS1M4) 
+      Licensed to KAISER PART OF  1700 USERS/SA PROD NDC GRID, Site 70220285.
+NOTE: This session is executing on the X64_10PRO  platform.
+
+
+
+NOTE: Updated analytical products:
+      
+      SAS/STAT 14.2
+      SAS/ETS 14.2
+      SAS/OR 14.2
+      SAS/IML 14.2
+      SAS/QC 14.2
+
+NOTE: Additional host information:
+
+ X64_10PRO WIN 10.0.17134  Workstation
+
+NOTE: SAS initialization used:
+      real time           4.21 seconds
+      cpu time            3.48 seconds
+      
+1          /*********************************************
+2          * Program:  bkup_RCM.sas
+3          * John Weeks
+4          * Kaiser Permanente Washington Health Research Institute
+5          * (206) 287-2711
+6          * John.M.Weeks@kp.org
+7          *
+8          *
+9          *
+10         * Purpose:: Bkup RCM codes
+11         * Date Created:: 9/24/2020
+12         *********************************************/
+13         
+14         /* remove personal login for production */
+15         %include "\\home.ghc.org\home$\weekjm1\sas\scripts\sasntlogon.sas";
+32         %include "&GHRIDW_ROOT.\remote\RemoteStart.sas";
+
+FYI: USER REQUESTED CURRENT ROUND ROBIN VM
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.35 seconds
+      cpu time            0.17 seconds
+      
+
+FYI: GHRI VM IP ADDRESS IS: 10.1.179.30     USING HOST: ROC70H
+use GHRIDWIP global variable in your SAS/CONNECT code.
+use GHRIHOST global variable to identify the specific host you are using.
+NOTE: Remote signon to GHRIDWIP commencing (SAS Release 9.04.01M4P110916).
+NOTE: Script file 'tcpwin.scr' entered.
+NOTE: Logged onto Windows... Starting remote SAS now.
+NOTE: SAS/CONNECT conversation established.
+NOTE: Copyright (c) 2002-2012 by SAS Institute Inc., Cary, NC, USA. 
+NOTE: SAS (r) Proprietary Software 9.4 (TS1M4) 
+      Licensed to KAISER PART OF  1700 USERS/SA PROD NDC GRID, Site 70220285.
+NOTE: This session is executing on the X64_7PRO  platform.
+
+
+
+NOTE: Updated analytical products:
+      
+      SAS/STAT 14.2
+      SAS/ETS 14.2
+      SAS/OR 14.2
+      SAS/IML 14.2
+      SAS/QC 14.2
+
+NOTE: Additional host information:
+
+ X64_7PRO WIN 6.1.7601 Service Pack 1 Workstation
+
+NOTE: SAS initialization used:
+      real time           0.76 seconds
+      cpu time            0.24 seconds
+      
+NOTE: Remote signon to GHRIDWIP complete.
+2                                           The SAS System          20:41 Thursday, September 24, 2020
+
+NOTE: Remote submit to GHRIDWIP commencing.
+1    /* VDW Standard Variables */
+2    %include "&GHRIDW_ROOT.\Sasdata\CRN_VDW\lib\StdVars.sas";
+NOTE: connecting to teradata with your NUID.
+NOTE: Libref __TDVDW was successfully assigned as follows: 
+      Engine:        TERADATA 
+      Physical Name: edwtdp
+NOTE: Libref __VDW was successfully assigned as follows: 
+      Engine:        V9 
+      Physical Name: \\ghcmaster\ghri\Warehouse\sasdata\crn_vdw
+255  
+256  /* RCM Standard Variables */
+257  %include "&GHRIDW_ROOT.\Sasdata\CRN_VDW\lib\StdVars_RCMandCNTRS.sas";
+313  
+314  /* SAS Prefix Sync Macros */
+315  %include "&GHRIDW_ROOT.\management\Programs\DataWarehouseMgt\prefix_sync_macros.sas";
+563  
+564  /* Debug Options */
+565  options nocenter missing='~' errorabend errors=1
+566  formchar  = '|-++++++++++=|-/|<>*'
+567  macrogen symbolgen mprint mlogic linesize  = 132
+568  noquotelenmax ;
+569  
+570  /* root folder */
+571  %let  code_home =\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP;
+572  
+573  libname datout "&code_home./sasdat";
+SYMBOLGEN:  Macro variable CODE_HOME resolves to \\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP
+NOTE: Libref DATOUT was successfully assigned as follows: 
+3                                           The SAS System          20:41 Thursday, September 24, 2020
+
+      Engine:        V9 
+      Physical Name: \\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\sasdat
+574  
+575  proc sql;
+576    create table datout.vdw_standard_codes as
+577      select * from __tdvdw.vdw_standard_codes
+578      order by code_source, code_type, code
+579    ;
+NOTE: Table DATOUT.VDW_STANDARD_CODES created, with 940 rows and 4 columns.
+
+580  quit;
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.42 seconds
+      cpu time            0.06 seconds
+      
+
+NOTE: Remote submit to GHRIDWIP complete.
+NOTE: SAS Institute Inc., SAS Campus Drive, Cary, NC USA 27513-2414
+NOTE: The SAS System used:
+4                                           The SAS System          20:41 Thursday, September 24, 2020
+
+      real time           18.16 seconds
+      cpu time            5.48 seconds
+      
