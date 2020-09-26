@@ -1,6 +1,7 @@
 # HCSRN-VDW-to-OHDSI-OMOP
 This project translates data from an HCSRN-VDW into an OHDSI-OMOP common data model using SAS.
 
+
 ## Prerequisites
 ### An HCSRN VDW Common Data Model
 - Find information on how to become a member in [The Book of OHDSI](https://ohdsi.github.io/TheBookOfOhdsi/WhereToBegin.html).
@@ -14,3 +15,5 @@ This project translates data from an HCSRN-VDW into an OHDSI-OMOP common data mo
 3. Download OHDSI OMOP Vocabulary from Athena
 4. Edit Runtime Parameter Variables
 5. 
+
+
