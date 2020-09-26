@@ -1,5 +1,5 @@
 *.*~
 #*#
 *#
-./omop_files/*
-./omop_vocab/*
+omop_files/*
+omop_vocab/*
