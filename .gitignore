@@ -1,5 +1,6 @@
 *.*~
 #*#
 *#
-omop_files/*
-omop_vocab/*
+omop_files/*.sas7bdat
+omop_vocab/*.sas7bdat
+omop_vocab/*.csv
