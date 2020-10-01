@@ -14,6 +14,8 @@ This project translates data from an HCSRN-VDW into an OHDSI-OMOP common data mo
 2. Clone OHDSI Common Data Model
 3. Download OHDSI OMOP Vocabulary from Athena
 4. Edit Runtime Parameter Variables
-5. 
+5. Run Build RCM
+6. Run Build OMOP
+
 
 

@@ -1,0 +1,1173 @@
+1                                           The SAS System         19:51 Wednesday, September 30, 2020
+
+NOTE: Copyright (c) 2002-2012 by SAS Institute Inc., Cary, NC, USA. 
+NOTE: SAS (r) Proprietary Software 9.4 (TS1M4) 
+      Licensed to KAISER PART OF  1700 USERS/SA PROD NDC GRID, Site 70220285.
+NOTE: This session is executing on the X64_10PRO  platform.
+
+
+
+NOTE: Updated analytical products:
+      
+      SAS/STAT 14.2
+      SAS/ETS 14.2
+      SAS/OR 14.2
+      SAS/IML 14.2
+      SAS/QC 14.2
+
+NOTE: Additional host information:
+
+ X64_10PRO WIN 10.0.17134  Workstation
+
+NOTE: SAS initialization used:
+      real time           4.38 seconds
+      cpu time            3.63 seconds
+      
+NOTE: A byte-order mark in the file "H:\HCSRN-VDW-to-OHDSI-OMOP\sas_etl\0-edit-run-main.sas" (for 
+      fileref "#LN00005") indicates that the data is encoded in "utf-16le".  This encoding will be 
+      used to process the file.
+1          /*********************************************
+2          * John Weeks
+3          * Kaiser Permanente Washington Health Research Institute
+4          * (206) 287-2711
+5          * John.M.Weeks@kp.org
+6          *
+7          *
+8          *
+9          * Purpose:: Populates variables with user's parameters
+10         * Date Created:: 2019-09-05
+11         *********************************************/
+12         
+13         /* remove in production */
+14         %include "\\home.ghc.org\home$\weekjm1\sas\scripts\sasntlogon.sas";
+31         %include "&GHRIDW_ROOT.\remote\RemoteStart.sas";
+
+FYI: USER REQUESTED CURRENT ROUND ROBIN VM
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.38 seconds
+      cpu time            0.23 seconds
+      
+
+FYI: GHRI VM IP ADDRESS IS: 10.1.179.30     USING HOST: ROC70H
+use GHRIDWIP global variable in your SAS/CONNECT code.
+use GHRIHOST global variable to identify the specific host you are using.
+NOTE: Remote signon to GHRIDWIP commencing (SAS Release 9.04.01M4P110916).
+NOTE: Script file 'tcpwin.scr' entered.
+NOTE: Logged onto Windows... Starting remote SAS now.
+NOTE: SAS/CONNECT conversation established.
+NOTE: Copyright (c) 2002-2012 by SAS Institute Inc., Cary, NC, USA. 
+NOTE: SAS (r) Proprietary Software 9.4 (TS1M4) 
+      Licensed to KAISER PART OF  1700 USERS/SA PROD NDC GRID, Site 70220285.
+NOTE: This session is executing on the X64_7PRO  platform.
+
+
+
+NOTE: Updated analytical products:
+      
+      SAS/STAT 14.2
+      SAS/ETS 14.2
+      SAS/OR 14.2
+      SAS/IML 14.2
+      SAS/QC 14.2
+
+NOTE: Additional host information:
+
+ X64_7PRO WIN 6.1.7601 Service Pack 1 Workstation
+
+NOTE: SAS initialization used:
+      real time           0.92 seconds
+      cpu time            0.21 seconds
+      
+NOTE: Remote signon to GHRIDWIP complete.
+2                                           The SAS System         19:51 Wednesday, September 30, 2020
+
+NOTE: Remote submit to GHRIDWIP commencing.
+1    /* Std Vars JIFFI */
+2    %include "&GHRIDW_ROOT./sasdata/crn_vdw/lib/StdVars_JIFFI.sas";
+NOTE: connecting to teradata with your NUID.
+NOTE: Libref __TDVDW was successfully assigned as follows: 
+      Engine:        TERADATA 
+      Physical Name: edwtdp
+NOTE: Libref __VDW was successfully assigned as follows: 
+      Engine:        V9 
+      Physical Name: \\ghcmaster\ghri\Warehouse\sasdata\crn_vdw
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: Libref __VDW was successfully assigned as follows: 
+      Engine:        TERADATA 
+      Physical Name: edwtdp
+366  
+367  /* EDIT SECTION */
+368  /* VDW standard variable inclusion */
+369  *%include "VDW standard vars";
+370  
+371  /* Root location of folder HCSRN VDW to OHDSI OMOP */
+372  %let root=\\home.ghc.org\home$\weekjm1;
+373  
+374  /* library for code */
+375  %let rt=&root.\HCSRN-VDW-to-OHDSI-OMOP\;
+376  
+3                                           The SAS System         19:51 Wednesday, September 30, 2020
+
+377    libname etl "&rt.sas_etl";
+NOTE: Libref ETL was successfully assigned as follows: 
+      Engine:        V9 
+      Physical Name: \\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\sas_etl
+378    libname dat "&rt.sas_dat";
+NOTE: Libref DAT was successfully assigned as follows: 
+      Engine:        V9 
+      Physical Name: \\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\sas_dat
+379    libname omop "rt.omop_files";
+NOTE: Library OMOP does not exist.
+380    libname vocab "rt.omop_vocab";
+NOTE: Library VOCAB does not exist.
+381  
+382  options
+383    linesize  = 150
+384    msglevel  = i
+385    formchar  = '|-++++++++++=|-/|<>*'
+386    dsoptions = note2err
+387    nocenter
+388    noovp
+389    nosqlremerge
+390    extendobscounter = no
+NOTE: A byte-order mark in the file 
+"\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\sas_etl\1-load-OMOP.sas" (for fileref 
+"#LN00038") 
+      indicates that the data is encoded in "utf-16le".  This encoding will be used to process the 
+file.
+391  ;
+392  
+393  /* Run Build */
+394  %include "&rt./sas_etl/1-load-OMOP.sas";
+ERROR: Library OMOP does not exist.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.07 seconds
+      cpu time            0.00 seconds
+      
+
+
+ERROR: Library OMOP does not exist.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.09 seconds
+      cpu time            0.00 seconds
+      
+
+
+451 +  left join &_rcm_pos ps
+                 -
+                 22
+4                                           The SAS System         19:51 Wednesday, September 30, 2020
+
+WARNING: Apparent symbolic reference _RCM_POS not resolved.
+451 +  left join &_rcm_pos ps
+                 -
+                 200
+ERROR 22-322: Syntax error, expecting one of the following: a name, a quoted string, (, CONNECTION, 
+DICTIONARY.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+
+ERROR: File WORK.UNQ_CARE_SITE.DATA does not exist.
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+
+489 +  left join &_rcm_physician_specialty sp
+                 -
+                 22
+WARNING: Apparent symbolic reference _RCM_PHYSICIAN_SPECIALTY not resolved.
+489 +  left join &_rcm_physician_specialty sp
+                 -
+                 200
+ERROR 22-322: Syntax error, expecting one of the following: a name, a quoted string, (, CONNECTION, 
+DICTIONARY.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+493 +  left join &_rcm_gender gn
+                 -
+                 22
+WARNING: Apparent symbolic reference _RCM_GENDER not resolved.
+493 +  left join &_rcm_gender gn
+                 -
+                 200
+ERROR 22-322: Syntax error, expecting one of the following: a name, a quoted string, (, CONNECTION, 
+DICTIONARY.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+NOTE: The "<>" operator is interpreted as "not equals".
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+5                                           The SAS System         19:51 Wednesday, September 30, 2020
+
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+ERROR: File WORK.UNQ_PROVIDER.DATA does not exist.
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+
+534 +  left join &_rcm_gender lug
+                 -
+                 22
+WARNING: Apparent symbolic reference _RCM_GENDER not resolved.
+534 +  left join &_rcm_gender lug
+                 -
+                 200
+ERROR 22-322: Syntax error, expecting one of the following: a name, a quoted string, (, CONNECTION, 
+DICTIONARY.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+536 +  left join &_rcm_race lur
+                 -
+                 22
+WARNING: Apparent symbolic reference _RCM_RACE not resolved.
+536 +  left join &_rcm_race lur
+                 -
+                 200
+ERROR 22-322: Syntax error, expecting one of the following: a name, a quoted string, (, CONNECTION, 
+DICTIONARY.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+538 +  left join &_rcm_ethnicity let
+                 -
+                 22
+WARNING: Apparent symbolic reference _RCM_ETHNICITY not resolved.
+538 +  left join &_rcm_ethnicity let
+                 -
+                 200
+ERROR 22-322: Syntax error, expecting one of the following: a name, a quoted string, (, CONNECTION, 
+DICTIONARY.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.00 seconds
+6                                           The SAS System         19:51 Wednesday, September 30, 2020
+
+      cpu time            0.00 seconds
+      
+
+
+580 +    inner join &_rcm_enctype vi
+                    -
+                    22
+WARNING: Apparent symbolic reference _RCM_ENCTYPE not resolved.
+580 +    inner join &_rcm_enctype vi
+                    -
+                    200
+ERROR 22-322: Syntax error, expecting one of the following: a name, a quoted string, (, CONNECTION, 
+DICTIONARY.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+582 +    inner join &_rcm_admit_source vt
+                    -
+                    22
+WARNING: Apparent symbolic reference _RCM_ADMIT_SOURCE not resolved.
+582 +    inner join &_rcm_admit_source vt
+                    -
+                    200
+ERROR 22-322: Syntax error, expecting one of the following: a name, a quoted string, (, CONNECTION, 
+DICTIONARY.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+585 +    left join &_rcm_admit_source las
+                   -
+                   22
+WARNING: Apparent symbolic reference _RCM_ADMIT_SOURCE not resolved.
+585 +    left join &_rcm_admit_source las
+                   -
+                   200
+ERROR 22-322: Syntax error, expecting one of the following: a name, a quoted string, (, CONNECTION, 
+DICTIONARY.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+587 +    left join &_rcm_discharge_status lds
+                   -
+                   22
+WARNING: Apparent symbolic reference _RCM_DISCHARGE_STATUS not resolved.
+587 +    left join &_rcm_discharge_status lds
+                   -
+                   200
+ERROR 22-322: Syntax error, expecting one of the following: a name, a quoted string, (, CONNECTION, 
+DICTIONARY.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+7                                           The SAS System         19:51 Wednesday, September 30, 2020
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+626 +  left join &_rcm_diagnosis ldx
+                 -
+                 22
+WARNING: Apparent symbolic reference _RCM_DIAGNOSIS not resolved.
+626 +  left join &_rcm_diagnosis ldx
+                 -
+                 200
+ERROR 22-322: Syntax error, expecting one of the following: a name, a quoted string, (, CONNECTION, 
+DICTIONARY.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+663 +    inner join &_rcm_procedure pxt
+                    -
+                    22
+WARNING: Apparent symbolic reference _RCM_PROCEDURE not resolved.
+663 +    inner join &_rcm_procedure pxt
+                    -
+                    200
+ERROR 22-322: Syntax error, expecting one of the following: a name, a quoted string, (, CONNECTION, 
+DICTIONARY.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+665 +    left join &_rcm_procedure pxm
+                   -
+                   22
+WARNING: Apparent symbolic reference _RCM_PROCEDURE not resolved.
+665 +    left join &_rcm_procedure pxm
+                   -
+                   200
+ERROR 22-322: Syntax error, expecting one of the following: a name, a quoted string, (, CONNECTION, 
+DICTIONARY.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.00 seconds
+8                                           The SAS System         19:51 Wednesday, September 30, 2020
+
+      cpu time            0.00 seconds
+      
+
+
+689 +  left join &_rcm_cod cod
+                 -
+                 22
+WARNING: Apparent symbolic reference _RCM_COD not resolved.
+689 +  left join &_rcm_cod cod
+                 -
+                 200
+ERROR 22-322: Syntax error, expecting one of the following: a name, a quoted string, (, CONNECTION, 
+DICTIONARY.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+691 +  left join &_rcm_deathtype dtht
+                 -
+                 22
+WARNING: Apparent symbolic reference _RCM_DEATHTYPE not resolved.
+691 +  left join &_rcm_deathtype dtht
+                 -
+                 200
+ERROR 22-322: Syntax error, expecting one of the following: a name, a quoted string, (, CONNECTION, 
+DICTIONARY.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+
+736 +    left join &_rcm_rx ndc
+                   -
+                   22
+WARNING: Apparent symbolic reference _RCM_RX not resolved.
+736 +    left join &_rcm_rx ndc
+                   -
+                   200
+ERROR 22-322: Syntax error, expecting one of the following: a name, a quoted string, (, CONNECTION, 
+DICTIONARY.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+9                                           The SAS System         19:51 Wednesday, September 30, 2020
+
+
+
+758 +    0 as [specimen_id]
+              -
+              22
+              200
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+759 +    ,pn.[person_id]
+             -
+             22
+             200
+ERROR 22-322: Syntax error, expecting one of the following: a name, *.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+760 +    ,0 as [specimen_concept_id]
+               -
+               22
+               200
+761 +    ,0 as [specimen_type_concept_id]
+               -
+               22
+               200
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+762 +    ,cast(tm.BDate as date) as [specimen_date]
+                        --          -
+                        22          200
+                        202
+ERROR 22-322: Syntax error, expecting one of the following: !, !!, &, ), *, **, +, ',', -, /, <, <=, 
+<>, =, >, >=, ?, AND, BETWEEN, CONTAINS, EQ, 
+              EQT, GE, GET, GT, GTT, IN, IS, LE, LET, LIKE, LT, LTT, NE, NET, NOT, NOTIN, OR, ^, ^=, 
+|, ||, ~, ~=.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+ERROR 202-322: The option or parameter is not recognized and will be ignored.
+
+762!+    ,cast(tm.BDate as date) as [specimen_date]
+                                    -
+                                    22
+ERROR 22-322: Expecting a name.  
+
+763 +    ,cast(tm.BDate as datetime) as [specimen_datetime]
+                        --              -
+                        22              200
+                        202
+ERROR 22-322: Syntax error, expecting one of the following: !, !!, &, ), *, **, +, ',', -, /, <, <=, 
+<>, =, >, >=, ?, AND, BETWEEN, CONTAINS, EQ, 
+10                                          The SAS System         19:51 Wednesday, September 30, 2020
+
+              EQT, GE, GET, GT, GTT, IN, IS, LE, LET, LIKE, LT, LTT, NE, NET, NOT, NOTIN, OR, ^, ^=, 
+|, ||, ~, ~=.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+ERROR 202-322: The option or parameter is not recognized and will be ignored.
+
+763!+    ,cast(tm.BDate as datetime) as [specimen_datetime]
+                                        -
+                                        22
+ERROR 22-322: Expecting a name.  
+
+764 +    ,tm. as [quantity]
+                 -
+                 22
+                 200
+ERROR 22-322: Syntax error, expecting one of the following: a quoted string, !, !!, &, *, **, +, ',', 
+-, /, <, <=, <>, =, >, >=, ?, AND, AS, BETWEEN, 
+              CONTAINS, EQ, EQT, FORMAT, FROM, GE, GET, GT, GTT, IN, INFORMAT, INTO, IS, LABEL, LE, 
+LEN, LENGTH, LET, LIKE, LT, LTT, NE, NET, NOT, 
+              NOTIN, OR, TRANSCODE, ^, ^=, |, ||, ~, ~=.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+765 +    ,0 as [unit_concept_id]
+               -
+               22
+               200
+766 +    ,0 as [anatomic_site_concept_id]
+               -
+               22
+               200
+767 +    ,0 as [disease_status_concept_id]
+               -
+               22
+               76
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+ERROR 76-322: Syntax error, statement will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+786 +    0 as [payer_plan_period_id]
+              -
+              22
+              200
+11                                          The SAS System         19:51 Wednesday, September 30, 2020
+
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+787 +    ,pn.[person_id]
+             -
+             22
+             200
+ERROR 22-322: Syntax error, expecting one of the following: a name, *.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+788 +    ,en.enr_start as [payer_plan_period_start_date]
+                          -
+                          22
+                          200
+789 +    ,en.enr_end as [payer_plan_period_end_date]
+                        -
+                        22
+                        200
+790 +    ,en.mainnet as [payer_source_value]
+                        -
+                        22
+                        200
+791 +    ,null as [plan_source_value]
+                  -
+                  22
+                  200
+792 +    ,null as [family_source_value]
+                  -
+                  22
+                  76
+WARNING: Apparent symbolic reference _VDW_ENROLLMENT not resolved.
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+ERROR 76-322: Syntax error, statement will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+815 +    opcnt.oid+row_number() over (order by current_timestamp) as observation_period_id,
+                                ----
+                                22
+                                76
+ERROR 22-322: Syntax error, expecting one of the following: !, !!, &, *, **, +, ',', -, /, <, <=, <>, 
+=, >, >=, ?, AND, BETWEEN, CONTAINS, EQ, EQT, 
+              GE, GET, GT, GTT, LE, LET, LIKE, LT, LTT, NE, NET, OR, ^=, |, ||, ~=.  
+12                                          The SAS System         19:51 Wednesday, September 30, 2020
+
+
+ERROR 76-322: Syntax error, statement will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+
+847 +      pn.[person_id]
+              -
+              22
+              200
+ERROR 22-322: Syntax error, expecting one of the following: a name, *.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+848 +    , ml.concept_id as [measurement_concept_id]
+                            -
+                            22
+                            200
+855 +      end as [measurement_date]
+                  -
+                  22
+                  200
+859 +    end as [time_flag]
+                -
+                22
+                200
+860 +    , lr.lab_dt +' '+ replace(lr.lab_tm, 'NULL', '') as [measurement_datetime]
+                                                             -
+                                                             22
+                                                             200
+861 +    , 44818702 as [measurement_type_concept_id]
+                       -
+                       22
+                       200
+862 +    , 0 as [operator_concept_id]
+                -
+                22
+                200
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+864 +    THEN cast(replace (lr.result_c, ' ', '') as float)
+                                                  --
+                                                  22
+                                                  202
+ERROR 22-322: Syntax error, expecting one of the following: !, !!, &, ), *, **, +, ',', -, /, <, <=, 
+<>, =, >, >=, ?, AND, BETWEEN, CONTAINS, EQ, 
+              EQT, GE, GET, GT, GTT, IN, IS, LE, LET, LIKE, LT, LTT, NE, NET, NOT, NOTIN, OR, ^, ^=, 
+13                                          The SAS System         19:51 Wednesday, September 30, 2020
+
+|, ||, ~, ~=.  
+
+ERROR 202-322: The option or parameter is not recognized and will be ignored.
+
+866 +    end as [value_as_number]
+                -
+                22
+                200
+867 +    , 0 as [value_as_concept_id]
+                -
+                22
+                200
+868 +    , 0 as [unit_concept_id]
+                -
+                22
+                200
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+870 +    THEN cast(replace (lr.normal_low_c, ' ', '') as float)
+                                                      --
+                                                      22
+                                                      202
+ERROR 22-322: Syntax error, expecting one of the following: !, !!, &, ), *, **, +, ',', -, /, <, <=, 
+<>, =, >, >=, ?, AND, BETWEEN, CONTAINS, EQ, 
+              EQT, GE, GET, GT, GTT, IN, IS, LE, LET, LIKE, LT, LTT, NE, NET, NOT, NOTIN, OR, ^, ^=, 
+|, ||, ~, ~=.  
+
+ERROR 202-322: The option or parameter is not recognized and will be ignored.
+
+872 +    END as [range_low]
+                -
+                22
+                200
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+874 +    THEN cast(replace (lr.normal_high_c, ' ', '') as float)
+                                                       --
+                                                       22
+                                                       202
+ERROR 22-322: Syntax error, expecting one of the following: !, !!, &, ), *, **, +, ',', -, /, <, <=, 
+<>, =, >, >=, ?, AND, BETWEEN, CONTAINS, EQ, 
+              EQT, GE, GET, GT, GTT, IN, IS, LE, LET, LIKE, LT, LTT, NE, NET, NOT, NOTIN, OR, ^, ^=, 
+|, ||, ~, ~=.  
+
+ERROR 202-322: The option or parameter is not recognized and will be ignored.
+
+876 +    END as [range_high]
+                -
+                22
+                200
+14                                          The SAS System         19:51 Wednesday, September 30, 2020
+
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+877 +    , pv.[provider_id]
+              -
+              22
+              200
+878 +    , vo.[visit_occurrence_id]
+              -
+              22
+              200
+ERROR 22-322: Syntax error, expecting one of the following: a name, *.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+879 +    , lr.loinc as [measurement_source_value]
+                       -
+                       22
+                       200
+880 +    , ml.concept_id as [measurement_source_concept_id]
+                            -
+                            22
+                            200
+881 +    , lr.result_unit as [unit_source_value]
+                             -
+                             22
+                             200
+882 +    , lr.result_c as [value_source_value]
+                          -
+                          22
+                          76
+WARNING: Apparent symbolic reference _LAB_RESULTS not resolved.
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+ERROR 76-322: Syntax error, statement will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+904 +    pn.[person_id]
+            -
+            22
+            200
+ERROR 22-322: Syntax error, expecting one of the following: a name, *.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+15                                          The SAS System         19:51 Wednesday, September 30, 2020
+
+
+905 +    ,3035463 as [measurement_concept_id]
+                     -
+                     22
+                     200
+906 +    ,vs.measure_date as [measurement_date]
+                             -
+                             22
+                             200
+907 +    ,vs.measure_date+' '+replace(replace(vs.measure_time, '?', ''), '1/1/1960', '') as 
+[measurement_datetime]
+                                                                                            -
+                                                                                            22
+                                                                                            200
+908 +    ,44818701 as [measurement_type_concept_id] --from Physical Exam
+                      -
+                      22
+                      76
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+ERROR 76-322: Syntax error, statement will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+937 +    pn.[person_id]
+            -
+            22
+            200
+ERROR 22-322: Syntax error, expecting one of the following: a name, *.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+938 +    ,3023540 as [measurement_concept_id]
+                     -
+                     22
+                     200
+939 +    ,vs.measure_date as [measurement_date]
+                             -
+                             22
+                             200
+940 +    ,vs.measure_date+' '+replace(replace(vs.measure_time, '?', ''), '1/1/1960', '') as 
+[measurement_datetime]
+                                                                                            -
+                                                                                            22
+                                                                                            200
+941 +    ,44818701 as [measurement_type_concept_id] --from Physical Exam
+16                                          The SAS System         19:51 Wednesday, September 30, 2020
+
+                      -
+                      22
+                      76
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+ERROR 76-322: Syntax error, statement will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+
+970 +    pn.[person_id]
+            -
+            22
+            200
+ERROR 22-322: Syntax error, expecting one of the following: a name, *.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+971 +    ,3025315 as [measurement_concept_id]
+                     -
+                     22
+                     200
+972 +    ,vs.measure_date as [measurement_date]
+                             -
+                             22
+                             200
+973 +    ,vs.measure_date+' '+replace(replace(vs.measure_time, '?', ''), '1/1/1960', '') as 
+[measurement_datetime]
+                                                                                            -
+                                                                                            22
+                                                                                            200
+974 +    ,44818701 as [measurement_type_concept_id] --from Physical Exam
+                      -
+                      22
+                      76
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+ERROR 76-322: Syntax error, statement will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+17                                          The SAS System         19:51 Wednesday, September 30, 2020
+
+
+
+1003 +    pn.[person_id]
+            -
+            22
+            200
+ERROR 22-322: Syntax error, expecting one of the following: a name, *.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+1004 +    ,3026600 as [measurement_concept_id]
+                      -
+                      22
+                      200
+1005 +    ,vs.measure_date as [measurement_date]
+                              -
+                              22
+                              200
+1006 +    ,vs.measure_date+' '+replace(replace(vs.measure_time, '?', ''), '1/1/1960', '') as 
+[measurement_datetime]
+                                                                                             -
+                                                                                             22
+                                                                                             200
+1007 +    ,44818701 as [measurement_type_concept_id] --from Physical Exam
+                       -
+                       22
+                       76
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+ERROR 76-322: Syntax error, statement will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+1036 +    pn.[person_id]
+             -
+             22
+             200
+ERROR 22-322: Syntax error, expecting one of the following: a name, *.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+1037 +    ,3038553 as [measurement_concept_id]
+                      -
+                      22
+                      200
+1038 +    ,vs.measure_date as [measurement_date]
+18                                          The SAS System         19:51 Wednesday, September 30, 2020
+
+                              -
+                              22
+                              200
+1039 +    ,vs.measure_date+' '+replace(replace(vs.measure_time, '?', ''), '1/1/1960', '') as 
+[measurement_datetime]
+                                                                                             -
+                                                                                             22
+                                                                                             200
+1040 +    ,44818701 as [measurement_type_concept_id] --from Physical Exam
+                       -
+                       22
+                       76
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+ERROR 76-322: Syntax error, statement will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+1069 +    pn.[person_id]
+             -
+             22
+             200
+ERROR 22-322: Syntax error, expecting one of the following: a name, *.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+1070 +    ,3012888 as [measurement_concept_id]
+                      -
+                      22
+                      200
+1071 +    ,vs.measure_date as [measurement_date]
+                              -
+                              22
+                              200
+1072 +    ,vs.measure_date+' '+replace(replace(vs.measure_time, '?', ''), '1/1/1960', '') as 
+[measurement_datetime]
+                                                                                             -
+                                                                                             22
+                                                                                             200
+1073 +    ,44818701 as [measurement_type_concept_id] --from Physical Exam
+                       -
+                       22
+                       76
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+19                                          The SAS System         19:51 Wednesday, September 30, 2020
+
+
+ERROR 76-322: Syntax error, statement will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+1102 +    pn.[person_id]
+             -
+             22
+             200
+ERROR 22-322: Syntax error, expecting one of the following: a name, *.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+1103 +    ,3004249 as [measurement_concept_id]
+                      -
+                      22
+                      200
+1104 +    ,vs.measure_date as [measurement_date]
+                              -
+                              22
+                              200
+1105 +    ,vs.measure_date+' '+replace(replace(vs.measure_time, '?', ''), '1/1/1960', '') as 
+[measurement_datetime]
+                                                                                             -
+                                                                                             22
+                                                                                             200
+1106 +    ,44818701 as [measurement_type_concept_id] --from Physical Exam
+                       -
+                       22
+                       76
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+ERROR 76-322: Syntax error, statement will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+1135 +    pn.[person_id]
+             -
+             22
+             200
+20                                          The SAS System         19:51 Wednesday, September 30, 2020
+
+ERROR 22-322: Syntax error, expecting one of the following: a name, *.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+1136 +    ,3027018 as [measurement_concept_id]
+                      -
+                      22
+                      200
+1137 +    ,vs.measure_date as [measurement_date]
+                              -
+                              22
+                              200
+1138 +    ,vs.measure_date+' '+replace(replace(vs.measure_time, '?', ''), '1/1/1960', '') as 
+[measurement_datetime]
+                                                                                             -
+                                                                                             22
+                                                                                             200
+1139 +    ,44818701 as [measurement_type_concept_id] --from Physical Exam
+                       -
+                       22
+                       76
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+ERROR 76-322: Syntax error, statement will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+
+1168 +    pn.[person_id]
+             -
+             22
+             200
+ERROR 22-322: Syntax error, expecting one of the following: a name, *.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+1169 +    ,45885207 as [measurement_concept_id]
+                       -
+                       22
+                       200
+1170 +    ,vs.measure_date as [measurement_date]
+                              -
+                              22
+                              200
+1171 +    ,vs.measure_date+' '+replace(replace(vs.measure_time, '?', ''), '1/1/1960', '') as 
+[measurement_datetime]
+                                                                                             -
+21                                          The SAS System         19:51 Wednesday, September 30, 2020
+
+                                                                                             22
+                                                                                             200
+1172 +    ,44818701 as [measurement_type_concept_id] --from Physical Exam
+                       -
+                       22
+                       76
+ERROR 22-322: Expecting a name.  
+
+ERROR 200-322: The symbol is not recognized and will be ignored.
+
+ERROR 76-322: Syntax error, statement will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+
+1200 +  select
+        ------
+        73
+1201 +    mscnt.mid+row_number() over (order by current_timestamp) as measurement_id
+                                 ----
+                                 22
+                                 76
+ERROR 73-322: Expecting an AS.
+
+ERROR 22-322: Syntax error, expecting one of the following: !, !!, &, *, **, +, ',', -, /, <, <=, <>, 
+=, >, >=, ?, AND, BETWEEN, CONTAINS, EQ, EQT, 
+              GE, GET, GT, GTT, LE, LET, LIKE, LT, LTT, NE, NET, OR, ^=, |, ||, ~=.  
+
+ERROR 76-322: Syntax error, statement will be ignored.
+
+NOTE: PROC SQL set option NOEXEC and will continue to check the syntax of statements.
+NOTE: The SAS System stopped processing this step because of errors.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+NOTE: Remote submit to GHRIDWIP complete.
+22                                          The SAS System         19:51 Wednesday, September 30, 2020
+
+ERROR: Errors printed on pages 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21.
+
+NOTE: SAS Institute Inc., SAS Campus Drive, Cary, NC USA 27513-2414
+NOTE: The SAS System used:
+      real time           19.23 seconds
+      cpu time            5.82 seconds
+      
