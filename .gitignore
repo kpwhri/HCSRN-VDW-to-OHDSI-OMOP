@@ -4,3 +4,6 @@
 omop_files/*.sas7bdat
 omop_vocab/*.sas7bdat
 omop_vocab/*.csv
+*.log
+sql_etl/*
+scratch/*
