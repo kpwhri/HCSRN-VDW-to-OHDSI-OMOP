@@ -10,6 +10,7 @@
 * Date Created:: 10/19/2020
 *********************************************/
 
+* include note about where Era tables get created ... Atlas.;
 * temp condition era table;
 proc sql;
   create table cte_condition_trgt as
