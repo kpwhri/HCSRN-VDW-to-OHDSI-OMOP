@@ -5,4 +5,6 @@
 omop_files/*.sas7bdat
 omop_vocab/*.sas7bdat
 omop_vocab/*.csv
+sas_dat/rcm_*
+sas_dat/vdw_codebucket*
 
