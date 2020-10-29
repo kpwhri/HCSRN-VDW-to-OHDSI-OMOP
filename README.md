@@ -12,10 +12,10 @@ This project translates data from an HCSRN-VDW into an OHDSI-OMOP common data mo
 ## Implementation Directions
 1. Clone HCSRN-VDW-to-OHDSI-OMOP ... this project
 2. Download OHDSI OMOP Vocabulary from Athena
-   a. Unzip the CSV files into the omop_vocab folder
+   1. Unzip the CSV files into the omop_vocab folder
 3. Edit Runtime Parameter Variables
-   a. Save the file "./sas_etl/0-edit-run-main.sas" to "0-run-main.sas"
-   b. Edit the file "./sas_etl/0-run-main.sas" to use your local settings
-   c. Edit the file "./sas_etl/rcm_std_vars.sas" to point to local VDW
-	   - If just trying to create the Research Code Management files then leave settings as they are and comment out the last two files (load OMOP and load OMOP Era).
+   1. Save the file "./sas_etl/0-edit-run-main.sas" to "0-run-main.sas"
+   2. Edit the file "./sas_etl/0-run-main.sas" to use your local settings
+   3. Edit the file "./sas_etl/rcm_std_vars.sas" to point to local VDW
+	  * If just trying to create the Research Code Management files then leave settings as they are and comment out the last two files (load OMOP and load OMOP Era).
 4. Run the file "0-run-manin.sas" that you have edited.
