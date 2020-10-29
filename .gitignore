@@ -1,9 +1,8 @@
 *.*~
 #*#
 *#
+0-run-main.sas
 omop_files/*.sas7bdat
 omop_vocab/*.sas7bdat
 omop_vocab/*.csv
-sql_etl/*
-omop_files/scratch/*
-omop_vocab/scratch/*
+
