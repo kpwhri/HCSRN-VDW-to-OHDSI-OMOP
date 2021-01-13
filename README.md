@@ -18,4 +18,4 @@ This project translates data from an HCSRN-VDW into an OHDSI-OMOP common data mo
    2. Edit the file "./sas_etl/0-run-main.sas" to use your local settings
    3. Edit the file "./sas_etl/rcm_std_vars.sas" to point to local VDW
 	  * If just trying to create the Research Code Management files then leave settings as they are and comment out the last two files (load OMOP and load OMOP Era).
-4. Run the file "0-run-manin.sas" that you have edited.
+4. Run the file "0-run-main.sas" that you have edited.
