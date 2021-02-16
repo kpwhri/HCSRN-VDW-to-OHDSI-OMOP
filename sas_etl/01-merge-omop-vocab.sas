@@ -13,6 +13,10 @@
 %let vcb=&rt.\omop_vocab\;
 
 /* Grab Data from Athena CSV downloads */
+
+/* Note:  In some cases the Concept.csv file is not loading in SAS.  
+ *  This may be due to an incompatible character in the file.  Saving the file in UTF16 encoding seems to fix the problem.  
+ */
 data vocab.concept_temp;
   infile "&vcb.CONCEPT.csv" dsd dlm='09'x firstobs=2;
   input concept_id :11. concept_name :$255. domain_id :$20. vocabulary_id :$20. concept_class_id :$20. standard_concept :$1. concept_code :$50. valid_start_date :$10. valid_end_date :$10. invalid_reason :$1. ;
@@ -68,8 +72,9 @@ data vocab.vocabulary_temp;
 run;
 
 
-/* Process and Load New Concepts into Concept table */
-proc sql;
+/* Process and Load New Concepts into Concept table  */
+%if %sysfunc( exist(vocab.concept) ) %then %do;
+  proc sql;
   create table vocab.concept_in as
     select cp.* from vocab.concept cp
     union
@@ -77,11 +82,20 @@ proc sql;
     from vocab.concept_temp ctp
     left outer join vocab.concept oct
     on ctp.concept_id = oct.concept_id
-    where oct.concept_id is null;
-quit;
+      where oct.concept_id is null;
+  quit;
+%end;
+%else %do;
+  proc sql;
+    create table vocab.concept_in as
+    select ctp.*
+      from vocab.concept_temp ctp;
+  quit;
+%end;
 
 
 /* Process and Load New Concept_ancestor records into Concept_ancestor table */
+  %if %sysfunc( exist(vocab.concept_ancestor) ) %then %do;
 proc sql;
   create table vocab.concept_ancestor_in as
     select cp.* from vocab.concept_ancestor cp
@@ -92,24 +106,40 @@ proc sql;
     on ctp.ancestor_concept_id = oct.ancestor_concept_id
     and ctp.descendant_concept_id = oct.descendant_concept_id
     where oct.ancestor_concept_id is null
-    and oct.descendant_concept_id is null;
+      and oct.descendant_concept_id is null;
+    quit;
+ %end;
+%else %do;
+    proc sql;
+  create table vocab.concept_ancestor_in as        
+    select ctp.*
+      from vocab.concept_ancestor_temp ctp;
 quit;
-
+%end;
 
 /* Process and Load New Concepts_class records into Concept_class table */
+%if %sysfunc( exist(vocab.concept_class) ) %then %do;
 proc sql;
-  create table vocab.concept_class_in as
+ create table vocab.concept_class_in as
     select cp.* from vocab.concept_class cp
     union
     select ctp.*
     from vocab.concept_class_temp ctp
     left outer join vocab.concept_class oct
     on ctp.concept_class_id = oct.concept_class_id
-    where oct.concept_class_id is null;
+      where oct.concept_class_id is null;
+    quit;
+  %end;
+%else %do;
+    proc sql;
+ create table vocab.concept_class_in as    
+    select ctp.*
+    from vocab.concept_class_temp ctp; 
 quit;
-
+%end;
 
 /* Process and Load New Concept_relationship records into Concept_relationship table */
+  %if %sysfunc( exist(vocab.concept_relationship) ) %then %do;
 proc sql;
   create table vocab.concept_relationship_in as
     select cp.* from vocab.concept_relationship cp
@@ -122,12 +152,19 @@ proc sql;
     and ctp.relationship_id = oct.relationship_id
     where oct.concept_id_1 is null
     and oct.concept_id_2 is null
-    and oct.relationship_id is null
-;
+      and oct.relationship_id is null;
+    quit;
+    %end;
+%else %do;
+proc sql;
+  create table vocab.concept_relationship_in as      
+    select ctp.*
+    from vocab.concept_relationship_temp ctp; 
 quit;
-
+%end;
 
 /* Process and Load New Concept_synonym records into Concept_synonym table */
+  %if %sysfunc( exist(vocab.concept_synonym) ) %then %do;
 proc sql;
   create table vocab.concept_synonym_in as
     select cp.* from vocab.concept_synonym cp
@@ -137,10 +174,18 @@ proc sql;
     left outer join vocab.concept_synonym oct
     on ctp.concept_id = oct.concept_id
     where oct.concept_id is null;
+    quit;
+    %end;
+%else %do;
+proc sql;
+  create table vocab.concept_synonym_in as
+    select ctp.*
+    from vocab.concept_synonym_temp ctp; 
 quit;
-
+%end;
 
 /* Process and Load New Domain records into Domain table */
+  %if %sysfunc( exist(vocab.domain) ) %then %do;
 proc sql;
   create table vocab.domain_in as
     select cp.* from vocab.domain cp
@@ -150,10 +195,18 @@ proc sql;
     left outer join vocab.domain oct
     on ctp.domain_id = oct.domain_id
     where oct.domain_id is null;
+    quit;
+    %end;
+%else %do;
+proc sql;
+  create table vocab.domain_in as
+    select ctp.*
+    from vocab.domain_temp ctp; 
 quit;
-
+%end;
 
 /* Process and Load New drug_strength records into drug_strength table */
+  %if %sysfunc( exist(vocab.drug_strength) ) %then  %do;
 proc sql;
   create table vocab.drug_strength_in as
     select cp.* from vocab.drug_strength cp
@@ -163,10 +216,18 @@ proc sql;
     left outer join vocab.drug_strength oct
     on ctp.drug_concept_id = oct.drug_concept_id
     where oct.drug_concept_id is null;
+    quit;
+    %end;
+%else %do;
+proc sql;
+  create table vocab.drug_strength_in as
+    select ctp.*
+    from vocab.drug_strength_temp ctp; 
 quit;
-
+%end;
 
 /* Process and Load New relationship records into Relationship table */
+%if %sysfunc( exist(vocab.relationship) ) %then %do;
 proc sql;
   create table vocab.relationship_in as
     select cp.* from vocab.relationship cp
@@ -176,10 +237,18 @@ proc sql;
     left outer join vocab.relationship oct
     on ctp.relationship_id = oct.relationship_id
     where oct.relationship_id is null;
+    quit;
+    %end;
+%else %do;
+proc sql;
+  create table vocab.relationship_in as
+    select ctp.*
+    from vocab.relationship_temp ctp; 
 quit;
-
+%end;
 
 /* Process and Load New vocabulary records into Vocabulary table */
+  %if %sysfunc( exist(vocab.vocabulary) ) %then %do;
 proc sql;
   create table vocab.vocabulary_in as
     select cp.* from vocab.vocabulary cp
@@ -189,22 +258,34 @@ proc sql;
     left outer join vocab.vocabulary oct
     on ctp.vocabulary_id = oct.vocabulary_id
     where oct.vocabulary_id is null;
+    quit;
+    %end;
+%else %do;
+proc sql;
+  create table vocab.vocabulary_in as
+    select ctp.*
+    from vocab.vocabulary_temp ctp; 
 quit;
+%end;
 
 /* Delete Existing bkup files */
+%if %sysfunc( exist(vocab.concept_bkup) ) %then %do;
 proc datasets library=vocab;
   delete vocabulary_bkup relationship_bkup drug_strength_bkup domain_bkup concept_synonym_bkup concept_relationship_bkup concept_class_bkup concept_ancestor_bkup concept_bkup;
 run;
+%end;
 
-/* Delete Existing bkup files */
+/* Delete Existing bk files */
 proc datasets library=vocab;
   delete vocabulary_temp relationship_temp drug_strength_temp domain_temp concept_synonym_temp concept_relationship_temp concept_class_temp concept_ancestor_temp concept_temp;
 run;
 
-/* Move previous OMOP Vocabulary to bkup files */
+/* Move previous OMOP Vocabulary to bkup files. There is the possibility of an unhandled exception on this process if all data files were created in first run then it should work fine. */
+%if %sysfunc( exist(vocab.concept) ) %then %do;
 proc datasets library=vocab;
   change vocabulary=vocabulary_bkup relationship=relationship_bkup drug_strength=drug_strength_bkup domain=domain_bkup concept_synonym=concept_synonym_bkup concept_relationship=concept_relationship_bkup concept_class=concept_class_bkup concept_ancestor=concept_ancestor_bkup concept=concept_bkup;
 run;
+%end;
 
 /* Move input files into OMOP Vocabulary files */
 proc datasets library=vocab;
