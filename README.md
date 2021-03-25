@@ -4,6 +4,8 @@ This project translates data from an HCSRN-VDW into an OHDSI-OMOP common data mo
 
 ## Prerequisites
 ### An HCSRN VDW Common Data Model
+
+### Membership in OHDSI
 - Find information on how to become a member in [The Book of OHDSI](https://ohdsi.github.io/TheBookOfOhdsi/WhereToBegin.html).
 
 ### The ability to download the OHDSI OMOP Vocabulary files
