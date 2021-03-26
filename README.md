@@ -4,6 +4,7 @@ This project translates data from an HCSRN-VDW into an OHDSI-OMOP common data mo
 
 ## Prerequisites
 ### An HCSRN VDW Common Data Model
+- This code requires an implemented HCSRN VDW data model.  Here is where you can find out about the [VDW Datamodel](http://www.hcsrn.org/en/Tools%20&%20Materials/VDW/).
 
 ### Membership in OHDSI
 - Find information on how to become a member in [The Book of OHDSI](https://ohdsi.github.io/TheBookOfOhdsi/WhereToBegin.html).
