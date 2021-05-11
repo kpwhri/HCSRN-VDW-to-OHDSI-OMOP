@@ -4,6 +4,9 @@ This project translates data from an HCSRN-VDW into an OHDSI-OMOP common data mo
 
 ## Prerequisites
 ### An HCSRN VDW Common Data Model
+- This code requires an implemented HCSRN VDW data model.  Here is where you can find out about the [VDW Datamodel](http://www.hcsrn.org/en/Tools%20&%20Materials/VDW/).
+
+### Membership in OHDSI
 - Find information on how to become a member in [The Book of OHDSI](https://ohdsi.github.io/TheBookOfOhdsi/WhereToBegin.html).
 
 ### The ability to download the OHDSI OMOP Vocabulary files
@@ -18,4 +21,4 @@ This project translates data from an HCSRN-VDW into an OHDSI-OMOP common data mo
    2. Edit the file "./sas_etl/0-run-main.sas" to use your local settings
    3. Edit the file "./sas_etl/rcm_std_vars.sas" to point to local VDW
 	  * If just trying to create the Research Code Management files then leave settings as they are and comment out the last two files (load OMOP and load OMOP Era).
-4. Run the file "0-run-manin.sas" that you have edited.
+4. Run the file "0-run-main.sas" that you have edited.
