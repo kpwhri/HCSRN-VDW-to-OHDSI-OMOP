@@ -25,7 +25,7 @@
 %let _rcm_physician_specialty = dat.rcm_prv_specialty            ;
 %let _rcm_procedure           = dat.rcm_px_px                    ;
 %let _rcm_race                = dat.rcm_dem_race                 ;
-%let _rcm_rx                  = dat.rcm_rx_ndc                   ;
+%let _rcm_ndc                 = dat.rcm_rx_ndc                   ;
 %let _rcm_pos                 = dat.rcm_utl_pos                  ;
 
 

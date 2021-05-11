@@ -1,0 +1,20 @@
+#+EXPORT_FILE_NAME: h:/presentations/OMOP-from-VDW
+#+TITLE: Generating an OHDSI OMOP Data Model from HCSRN's VDW
+#+AUTHOR: John Weeks
+#+DATE: <2021-04-22 Thu>
+
+* What is OHDSI OMOP?
+* Why should HCSRN VDW generate the OMOP CDM?
+#+BEGIN_NOTES
+Over the last five years hundreds of millions of dollars have been granted to research programs that use the OHDSI (pronounced “Odyssey”) Common Data Model (CDM). In 2015, the Precision Medicine Initiative Cohort Program was passed through Congress with an initial funding of $130 million. Later renamed as All of Us, the project decided its scheme to harmonize data for analyses across health care organizations would be the OHDSI OMOP Common Data Model.  KPWHRI used our VDW to create a limited version of the OHDSI OMOP for the eMERGE project.  That project was improved and moved into a GitHub project that is now available to everyone.
+#+END_NOTES
+* What VDW Data is being translated into the OMOP CDM?
+
+#+BEGIN_SRC sql
+
+proc sql
+select * from 
+&_some_table;
+quit;
+
+#+END_SRC
