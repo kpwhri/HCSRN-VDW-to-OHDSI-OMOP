@@ -1,0 +1,574 @@
+1                                           The SAS System                 15:15 Tuesday, May 11, 2021
+
+NOTE: Copyright (c) 2016 by SAS Institute Inc., Cary, NC, USA. 
+NOTE: SAS (r) Proprietary Software 9.4 (TS1M6) 
+      Licensed to KFH PART OF 1700 USERS/SA PROD NDC 64 BIT, Site 70220285.
+NOTE: This session is executing on the X64_10PRO  platform.
+
+
+
+NOTE: Analytical products:
+      
+      SAS/STAT 15.1
+      SAS/ETS 15.1
+      SAS/IML 15.1
+      SAS/QC 15.1
+
+NOTE: Additional host information:
+
+ X64_10PRO WIN 10.0.17134  Workstation
+
+NOTE: SAS initialization used:
+      real time           1.45 seconds
+      cpu time            0.62 seconds
+      
+NOTE: A byte-order mark in the file "H:\HCSRN-VDW-to-OHDSI-OMOP\sas_etl\0-run-main.sas" (for fileref 
+      "#LN00005") indicates that the data is encoded in "utf-16le".  This encoding will be used to 
+      process the file.
+1          /*********************************************
+2          * John Weeks
+3          * Kaiser Permanente Washington Health Research Institute
+4          * (206) 287-2711
+5          * John.M.Weeks@kp.org
+6          *
+7          *
+8          *
+9          * Purpose:: Populates variables with user's parameters
+10         * Date Created:: 2019-09-05
+11         *********************************************/
+12         
+13         /* remove in production */
+14         %include "\\home.ghc.org\home$\weekjm1\sas\scripts\sasntlogon.sas";
+13770      %include "&GHRIDW_ROOT.\remote\RemoteStart.sas";
+
+FYI: USER REQUESTED CURRENT ROUND ROBIN VM
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.21 seconds
+      cpu time            0.04 seconds
+      
+
+FYI: GHRI VM IP ADDRESS IS: 10.1.179.23     USING HOST: ROC70F
+use GHRIDWIP global variable in your SAS/CONNECT code.
+use GHRIHOST global variable to identify the specific host you are using.
+NOTE: Remote signon to GHRIDWIP commencing (SAS Release 9.04.01M6P111518).
+NOTE: Script file 'tcpwin.scr' entered.
+NOTE: Logged onto Windows... Starting remote SAS now.
+NOTE: SAS/CONNECT conversation established.
+NOTE: Copyright (c) 2002-2012 by SAS Institute Inc., Cary, NC, USA. 
+NOTE: SAS (r) Proprietary Software 9.4 (TS1M4) 
+      Licensed to KFH PART OF 1700 USERS/SA PROD NDC 64 BIT, Site 70220285.
+NOTE: This session is executing on the X64_7PRO  platform.
+
+
+
+NOTE: Updated analytical products:
+      
+      SAS/STAT 14.2
+      SAS/ETS 14.2
+      SAS/OR 14.2
+      SAS/IML 14.2
+      SAS/QC 14.2
+
+NOTE: Additional host information:
+
+ X64_7PRO WIN 6.1.7601 Service Pack 1 Workstation
+
+NOTE: SAS initialization used:
+      real time           0.29 seconds
+      cpu time            0.21 seconds
+      
+NOTE: Remote signon to GHRIDWIP complete.
+2                                           The SAS System                 15:15 Tuesday, May 11, 2021
+
+NOTE: Remote submit to GHRIDWIP commencing.
+1    /* Std Vars JIFFI remove ...*/
+2    %include "&GHRIDW_ROOT./sasdata/crn_vdw/lib/StdVars_JIFFI.sas";
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+      
+
+NOTE: Libref __JFIV was successfully assigned as follows: 
+      Engine:        TERADATA 
+      Physical Name: edwtdp
+138  
+139  /* Include your Standard Variables for your local VDW and RCM Standard Variables */
+140  %include "&GHRIDW_ROOT.\sasdata\CRN_VDW\lib\SV_JIFFI_RCMandCNTRS.sas";
+208  
+209  /* EDIT SECTION */
+210  /* VDW standard variable inclusion */
+211  /* *%include "VDW standard vars"; */
+212  options
+213    linesize  = 150
+214    msglevel  = i
+215    formchar  = '|-++++++++++=|-/|<>*'
+216    dsoptions = note2err
+217    nocenter
+218    noovp
+219    /* nosqlremerge */
+220    extendobscounter = no
+221  ;
+222  
+3                                           The SAS System                 15:15 Tuesday, May 11, 2021
+
+223  /* Root location of folder HCSRN VDW to OHDSI OMOP */
+224  %let root=\\home.ghc.org\home$\weekjm1;
+225  
+226  /* library for code */
+227  %let rt=&root.\HCSRN-VDW-to-OHDSI-OMOP\;
+228  
+229  libname etl "&rt.sas_etl";
+NOTE: Libref ETL was successfully assigned as follows: 
+      Engine:        V9 
+      Physical Name: \\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\sas_etl
+230  libname dat "&rt.sas_dat";
+NOTE: Libref DAT was successfully assigned as follows: 
+      Engine:        V9 
+      Physical Name: \\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\sas_dat
+231  libname omop "&rt.omop_files";
+NOTE: Libref OMOP was successfully assigned as follows: 
+      Engine:        V9 
+      Physical Name: \\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\omop_files
+232  libname vocab "&rt.omop_vocab";
+NOTE: Libref VOCAB was successfully assigned as follows: 
+      Engine:        V9 
+      Physical Name: \\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\omop_vocab
+233  
+234  /* Run Build */
+235  /* Picks up OMOP Vocabulary CSV files produced by Athena and creates or merges into OMOP Vocab 
+SAS datafiles */
+236  *  %include "&rt./sas_etl/01-merge-omop-vocab.sas";
+237  /* Load VDW Codebucket by joining data from VDW Standard Variables and Standard Codes from OMOP 
+Vocabulary */
+238  *  %include "&rt./sas_etl/02-load-VDW-CB.sas";
+239  /* Creates SAS datafiles that represent the code relationships that translate from VDW Codes to 
+OMOP Codes */
+240  *  %include "&rt./sas_etl/03-load-RCM.sas";
+241  /* An abstraction layer that enables the programmer to choose the source for the VDW, OMOP 
+Vocabulary and RCM */
+242    %include "&rt./sas_etl/rcm_vdw_vars.sas";
+NOTE: A byte-order mark in the file 
+"\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\sas_etl\1-load-OMOP.sas" (for fileref 
+"#LN00039") 
+      indicates that the data is encoded in "utf-16le".  This encoding will be used to process the 
+file.
+310  /* Creates the Primary OMOP Primary Tables as SAS data files and stores in the omop_files folder 
+*/
+311    %include "&rt./sas_etl/1-load-OMOP.sas";
+NOTE: SAS threaded sort was used.
+NOTE: Table OMOP.LOCATION created, with 135640 rows and 8 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           2.93 seconds
+      cpu time            0.51 seconds
+      
+
+NOTE: Table OMOP.LOCATION_POS_BRIDGE created, with 218142 rows and 2 columns.
+
+4                                           The SAS System                 15:15 Tuesday, May 11, 2021
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           14.35 seconds
+      cpu time            0.54 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.UNQ_CARE_SITE created, with 211334 rows and 5 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           2.26 seconds
+      cpu time            1.10 seconds
+      
+
+NOTE: Table OMOP.CARE_SITE created, with 211334 rows and 6 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.25 seconds
+      cpu time            0.18 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.UNQ_PROVIDER created, with 296936 rows and 12 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           2.67 seconds
+      cpu time            2.60 seconds
+      
+
+NOTE: Table OMOP.PROVIDER created, with 296936 rows and 13 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           1.75 seconds
+      cpu time            1.34 seconds
+      
+
+NOTE: A CASE expression has no ELSE clause. Cases not accounted for by the WHEN clauses will result 
+in a missing value for the CASE expression.
+NOTE: SAS threaded sort was used.
+WARNING: Statement terminated early due to OUTOBS=100 option.
+NOTE: Table OMOP.PERSON created, with 100 rows and 18 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           14.32 seconds
+      cpu time            14.23 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table OMOP.VISIT_OCCURRENCE created, with 6737 rows and 17 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           15.47 seconds
+      cpu time            0.34 seconds
+      
+
+5                                           The SAS System                 15:15 Tuesday, May 11, 2021
+
+NOTE: SAS threaded sort was used.
+NOTE: Table OMOP.CONDITION_OCCURRENCE created, with 13925 rows and 15 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           27.84 seconds
+      cpu time            1.29 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table OMOP.PROCEDURE_OCCURRENCE created, with 16307 rows and 13 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           45.92 seconds
+      cpu time            3.26 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table OMOP.DEATH created, with 78 rows and 8 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           34.82 seconds
+      cpu time            3.20 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table OMOP.DRUG_EXPOSURE created, with 10220 rows and 22 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           1:01.92
+      cpu time            6.82 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table OMOP.SPECIMEN created, with 9138 rows and 15 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           31.23 seconds
+      cpu time            4.45 seconds
+      
+
+NOTE: Table OMOP.PAYER_PLAN_PERIOD created, with 658 rows and 7 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           2.09 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table OMOP.OBSERVATION_PERIOD created, with 100 rows and 7 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.15 seconds
+      cpu time            0.03 seconds
+      
+6                                           The SAS System                 15:15 Tuesday, May 11, 2021
+
+
+NOTE: SAS threaded sort was used.
+NOTE: Invalid string.
+NOTE: Invalid argument to function INPUT. Missing values may be generated.
+NOTE: Table WORK.TMP_MEASUREMENT_LABS created, with 9179 rows and 18 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           22.00 seconds
+      cpu time            1.35 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.TMP_MEAS_VITALS_HT_EST created, with 1009 rows and 17 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           4.18 seconds
+      cpu time            0.04 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.TMP_MEAS_VITALS_HT created, with 412 rows and 17 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           2.50 seconds
+      cpu time            0.04 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.TMP_MEAS_VITALS_WT created, with 851 rows and 17 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           2.42 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.TMP_MEAS_VITALS_WT_EST created, with 1013 rows and 17 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           2.57 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.TMP_MEAS_VITALS_BMI created, with 1009 rows and 17 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           1.98 seconds
+      cpu time            0.04 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.TMP_MEAS_VITALS_BPD created, with 831 rows and 17 columns.
+
+7                                           The SAS System                 15:15 Tuesday, May 11, 2021
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           2.28 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.TMP_MEAS_VITALS_BPS created, with 831 rows and 17 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           2.78 seconds
+      cpu time            0.04 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.TMP_MEAS_VITALS_PULSE created, with 869 rows and 17 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           2.50 seconds
+      cpu time            0.03 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.TMP_MEAS_VITALS_PREG created, with 0 rows and 17 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           1.98 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Invalid time value
+NOTE: Invalid argument to function INPUT. Missing values may be generated.
+NOTE: Table OMOP.MEASUREMENT created, with 14660 rows and 18 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.23 seconds
+      cpu time            0.07 seconds
+      
+
+1152  /* Creates the OMOP Era Tables */
+1153    %include "&rt./sas_etl/2-load-OMOP-Era.sas";
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.CTE_CONDITION_TRGT created, with 13925 rows and 6 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.06 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: Table WORK.CTE_CONDCNT_B created, with 1928 rows and 2 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.03 seconds
+8                                           The SAS System                 15:15 Tuesday, May 11, 2021
+
+      
+
+NOTE: Table WORK.CTE_CONDCNT_A created, with 1928 rows and 3 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.CTE_CONDITION_DATA created, with 27850 rows and 5 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.06 seconds
+      cpu time            0.04 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.CTE_CONDITION_ORD created, with 27850 rows and 6 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.00 seconds
+      
+
+NOTE: Table WORK.CTE_ENDDATES created, with 1 rows and 5 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.CTE_CONDITION_END created, with 9255 rows and 6 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.06 seconds
+      cpu time            0.06 seconds
+      
+
+NOTE: Table OMOP.CONDITION_ERA created, with 9255 rows and 6 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.06 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.DTE_DRUG_TARGET created, with 10220 rows and 10 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           19.72 seconds
+      cpu time            1.71 seconds
+      
+9                                           The SAS System                 15:15 Tuesday, May 11, 2021
+
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.DTE_DSTNCTDOSE_B created, with 2225 rows and 4 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: Table WORK.DTE_DSTNCTDOSE_A created, with 2225 rows and 5 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.03 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.DTE_DOSE_DATA created, with 20440 rows and 7 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.04 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.DTE_DOSE_ORD created, with 20440 rows and 8 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.04 seconds
+      
+
+NOTE: Table WORK.DTE_ENDDATES created, with 1 rows and 7 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.DTE_DOSE_ERA_END created, with 1 rows and 6 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: Table WORK.DOSE_ERA created, with 1 rows and 7 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+10                                          The SAS System                 15:15 Tuesday, May 11, 2021
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.DXE_RX_TARGET created, with 10220 rows and 6 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           17.53 seconds
+      cpu time            1.31 seconds
+      
+
+NOTE: Table WORK.DXE_DSTNCTRX_B created, with 2225 rows and 2 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.00 seconds
+      
+
+NOTE: Table WORK.DXE_DSTNCTRX_A created, with 2225 rows and 3 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.00 seconds
+      
+
+NOTE: Table WORK.DXE_RX_DATA created, with 20440 rows and 5 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.DXE_RX_ORD created, with 20440 rows and 6 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: Table WORK.DXE_ENDDATES created, with 1 rows and 5 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.DXE_DRUG_ERA_END created, with 4 rows and 6 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.03 seconds
+      
+
+NOTE: Table OMOP.DRUG_ERA created, with 4 rows and 7 columns.
+
+11                                          The SAS System                 15:15 Tuesday, May 11, 2021
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.06 seconds
+      cpu time            0.00 seconds
+      
+
+NOTE: Remote submit to GHRIDWIP complete.
+NOTE: SAS Institute Inc., SAS Campus Drive, Cary, NC USA 27513-2414
+12                                          The SAS System                 15:15 Tuesday, May 11, 2021
+
+NOTE: The SAS System used:
+      real time           5:54.21
+      cpu time            1.20 seconds
+      

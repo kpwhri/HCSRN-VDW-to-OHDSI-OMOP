@@ -464,3 +464,58 @@ proc sql;
 quit;
 
 
+
+proc sql;
+  create table dat.rcm_utl_pos as
+    select ue.vdw_code, ue.vdw_desc, 'ENCTYPE_ENCOUNTER_SUBTYPE' as vdw_code_type, cp.concept_id as omop_code_id,
+    cp.concept_code as omop_code, cp.concept_name as omop_cd_desc, cp.vocabulary_id as omop_cd_type, ue.enctype,
+    ue.enc_desc as enctype_desc, ue.encounter_subtype, ue.sub_desc as enc_subtype_desc
+  from
+    ( select enc.enctype, enc.enc_desc, sub.encounter_subtype, sub.sub_desc,
+        enc.enctype||'_'||sub.encounter_subtype as vdw_code, 
+        enc.enc_desc||'_'||sub.sub_desc as vdw_desc, 
+          case enc.enctype||'_'||sub.encounter_subtype 
+          when 'AV_DI' then '17'
+          when 'AV_HA' then '24'
+          when 'AV_OB' then '17'
+          when 'AV_OC' then '17'
+          when 'AV_RH' then '62'
+          when 'AV_SD' then '24'
+          when 'AV_UC' then '20'
+          when 'ED_HA' then '23'
+          when 'ED_OC' then '20'
+          when 'EM_OT' then '2'
+          when 'IP_AI' then '21'
+          when 'IS_DI' then '22'
+          when 'IS_HS' then '34'
+          when 'IS_NH' then '13'
+          when 'IS_OT' then '99'
+          when 'IS_RH' then '61'
+          when 'IS_SN' then '31'
+          when 'LO_OC' then '81'
+          when 'LO_OT' then '81'
+          when 'OE_AI' then '21'
+          when 'OE_HH' then '12'
+          when 'OE_HS' then '34'
+          when 'OE_OT' then '99'
+          when 'OE_SN' then '31'
+          when 'RO_OC' then '17'
+          when 'RO_OT' then '17'
+          when 'TE_HH' then '2'
+          when 'TE_OT' then '2'
+          else '99'
+        end as pos
+    from
+    ( select put(code, $2.) as enctype, code_desc as enc_desc
+      from dat.vdw_codebucket where code_type = 'ENCTYPE') enc,
+    ( select put(code, $2.) as encounter_subtype, code_desc as sub_desc
+      from dat.vdw_codebucket where code_type = 'ENCOUNTER_SUBTYPE') sub
+    ) ue
+	left join vocab.concept cp
+	on ue.pos = cp.concept_code
+	where lower(cp.vocabulary_id) = 'place of service'
+  and cp.concept_code not like 'OMOP%'
+    ;
+quit;
+
+
