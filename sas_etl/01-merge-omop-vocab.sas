@@ -71,7 +71,7 @@ data vocab.vocabulary_temp;
   output;
 run;
 
-
+%macro buildomop();
 /* Process and Load New Concepts into Concept table  */
 %if %sysfunc( exist(vocab.concept) ) %then %do;
   proc sql;
@@ -292,3 +292,6 @@ proc datasets library=vocab;
   change vocabulary_in=vocabulary relationship_in=relationship drug_strength_in=drug_strength domain_in=domain concept_synonym_in=concept_synonym concept_relationship_in=concept_relationship concept_class_in=concept_class concept_ancestor_in=concept_ancestor concept_in=concept;
 run;
 
+%mend buildomop;
+
+%buildomop();

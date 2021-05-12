@@ -1,4 +1,4 @@
-1                                           The SAS System                 15:15 Tuesday, May 11, 2021
+1                                           The SAS System                 18:23 Tuesday, May 11, 2021
 
 NOTE: Copyright (c) 2016 by SAS Institute Inc., Cary, NC, USA. 
 NOTE: SAS (r) Proprietary Software 9.4 (TS1M6) 
@@ -19,8 +19,8 @@ NOTE: Additional host information:
  X64_10PRO WIN 10.0.17134  Workstation
 
 NOTE: SAS initialization used:
-      real time           1.45 seconds
-      cpu time            0.62 seconds
+      real time           1.46 seconds
+      cpu time            0.56 seconds
       
 NOTE: A byte-order mark in the file "H:\HCSRN-VDW-to-OHDSI-OMOP\sas_etl\0-run-main.sas" (for fileref 
       "#LN00005") indicates that the data is encoded in "utf-16le".  This encoding will be used to 
@@ -43,11 +43,11 @@ NOTE: A byte-order mark in the file "H:\HCSRN-VDW-to-OHDSI-OMOP\sas_etl\0-run-ma
 
 FYI: USER REQUESTED CURRENT ROUND ROBIN VM
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           0.21 seconds
+      real time           0.23 seconds
       cpu time            0.04 seconds
       
 
-FYI: GHRI VM IP ADDRESS IS: 10.1.179.23     USING HOST: ROC70F
+FYI: GHRI VM IP ADDRESS IS: 10.1.179.227    USING HOST: ROC70J
 use GHRIDWIP global variable in your SAS/CONNECT code.
 use GHRIHOST global variable to identify the specific host you are using.
 NOTE: Remote signon to GHRIDWIP commencing (SAS Release 9.04.01M6P111518).
@@ -74,11 +74,11 @@ NOTE: Additional host information:
  X64_7PRO WIN 6.1.7601 Service Pack 1 Workstation
 
 NOTE: SAS initialization used:
-      real time           0.29 seconds
-      cpu time            0.21 seconds
+      real time           0.21 seconds
+      cpu time            0.14 seconds
       
 NOTE: Remote signon to GHRIDWIP complete.
-2                                           The SAS System                 15:15 Tuesday, May 11, 2021
+2                                           The SAS System                 18:23 Tuesday, May 11, 2021
 
 NOTE: Remote submit to GHRIDWIP commencing.
 1    /* Std Vars JIFFI remove ...*/
@@ -109,7 +109,7 @@ NOTE: Libref __JFIV was successfully assigned as follows:
 220    extendobscounter = no
 221  ;
 222  
-3                                           The SAS System                 15:15 Tuesday, May 11, 2021
+3                                           The SAS System                 18:23 Tuesday, May 11, 2021
 
 223  /* Root location of folder HCSRN VDW to OHDSI OMOP */
 224  %let root=\\home.ghc.org\home$\weekjm1;
@@ -137,346 +137,957 @@ NOTE: Libref VOCAB was successfully assigned as follows:
 234  /* Run Build */
 235  /* Picks up OMOP Vocabulary CSV files produced by Athena and creates or merges into OMOP Vocab 
 SAS datafiles */
-236  *  %include "&rt./sas_etl/01-merge-omop-vocab.sas";
-237  /* Load VDW Codebucket by joining data from VDW Standard Variables and Standard Codes from OMOP 
+236    %include "&rt./sas_etl/01-merge-omop-vocab.sas";
+
+NOTE: The infile "\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\CONCEPT.csv" is:
+      Filename=\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\CONCEPT.csv,
+      RECFM=V,LRECL=32767,File Size (bytes)=46654419,
+      Last Modified=21Jan2020:16:26:06,
+      Create Time=29Sep2020:12:30:13
+
+NOTE: 399810 records were read from the infile 
+"\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\CONCEPT.csv".
+      The minimum record length was 46.
+      The maximum record length was 312.
+NOTE: The data set VOCAB.CONCEPT_TEMP has 399810 observations and 10 variables.
+NOTE: DATA statement used (Total process time):
+      real time           1.92 seconds
+      cpu time            1.37 seconds
+      
+
+
+NOTE: The infile 
+"\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\CONCEPT_ANCESTOR.csv" is:
+      Filename=\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\CONCEPT_ANCESTOR.csv,
+      RECFM=V,LRECL=32767,File Size (bytes)=48071107,
+      Last Modified=21Jan2020:16:26:07,
+      Create Time=29Sep2020:12:30:14
+
+NOTE: 2288302 records were read from the infile 
+"\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\CONCEPT_ANCESTOR.csv".
+4                                           The SAS System                 18:23 Tuesday, May 11, 2021
+
+      The minimum record length was 11.
+      The maximum record length was 21.
+NOTE: The data set VOCAB.CONCEPT_ANCESTOR_TEMP has 2288302 observations and 4 variables.
+NOTE: DATA statement used (Total process time):
+      real time           1.39 seconds
+      cpu time            1.09 seconds
+      
+
+
+NOTE: The infile "\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\CONCEPT_CLASS.csv" 
+is:
+      Filename=\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\CONCEPT_CLASS.csv,
+      RECFM=V,LRECL=32767,File Size (bytes)=16256,
+      Last Modified=21Jan2020:16:26:06,
+      Create Time=29Sep2020:12:30:14
+
+NOTE: 380 records were read from the infile 
+"\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\CONCEPT_CLASS.csv".
+      The minimum record length was 13.
+      The maximum record length was 129.
+NOTE: The data set VOCAB.CONCEPT_CLASS_TEMP has 380 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.00 seconds
+      
+
+
+NOTE: The infile 
+"\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\CONCEPT_RELATIONSHIP.csv" is:
+      
+Filename=\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\CONCEPT_RELATIONSHIP.csv,
+      RECFM=V,LRECL=32767,
+      File Size (bytes)=137420941,
+      Last Modified=21Jan2020:16:26:08,
+      Create Time=29Sep2020:12:30:15
+
+NOTE: 3171054 records were read from the infile 
+"\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\CONCEPT_RELATIONSHIP.csv".
+      The minimum record length was 31.
+      The maximum record length was 56.
+NOTE: The data set VOCAB.CONCEPT_RELATIONSHIP_TEMP has 3171054 observations and 6 variables.
+NOTE: DATA statement used (Total process time):
+      real time           3.42 seconds
+      cpu time            2.46 seconds
+      
+
+
+NOTE: The infile 
+"\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\CONCEPT_SYNONYM.csv" is:
+      Filename=\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\CONCEPT_SYNONYM.csv,
+      RECFM=V,LRECL=32767,File Size (bytes)=42637717,
+      Last Modified=21Jan2020:16:26:07,
+      Create Time=29Sep2020:12:30:16
+
+5                                           The SAS System                 18:23 Tuesday, May 11, 2021
+
+NOTE: 537782 records were read from the infile 
+"\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\CONCEPT_SYNONYM.csv".
+      The minimum record length was 14.
+      The maximum record length was 261.
+NOTE: The data set VOCAB.CONCEPT_SYNONYM_TEMP has 537782 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+      real time           4.81 seconds
+      cpu time            3.84 seconds
+      
+
+
+NOTE: The infile "\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\DOMAIN.csv" is:
+      Filename=\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\DOMAIN.csv,
+      RECFM=V,LRECL=32767,File Size (bytes)=1661,
+      Last Modified=21Jan2020:16:26:06,
+      Create Time=29Sep2020:12:30:17
+
+NOTE: 47 records were read from the infile 
+"\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\DOMAIN.csv".
+      The minimum record length was 11.
+      The maximum record length was 112.
+NOTE: The data set VOCAB.DOMAIN_TEMP has 47 observations and 3 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.00 seconds
+      
+
+
+NOTE: The infile "\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\DRUG_STRENGTH.csv" 
+is:
+      Filename=\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\DRUG_STRENGTH.csv,
+      RECFM=V,LRECL=32767,File Size (bytes)=218,
+      Last Modified=21Jan2020:16:26:08,
+      Create Time=29Sep2020:12:30:18
+
+NOTE: 0 records were read from the infile 
+"\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\DRUG_STRENGTH.csv".
+NOTE: The data set VOCAB.DRUG_STRENGTH_TEMP has 0 observations and 12 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.03 seconds
+      cpu time            0.01 seconds
+      
+
+
+NOTE: The infile "\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\RELATIONSHIP.csv" 
+is:
+      Filename=\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\RELATIONSHIP.csv,
+      RECFM=V,LRECL=32767,File Size (bytes)=40746,
+      Last Modified=21Jan2020:16:26:07,
+      Create Time=29Sep2020:12:30:12
+
+NOTE: 548 records were read from the infile 
+"\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\RELATIONSHIP.csv".
+      The minimum record length was 31.
+6                                           The SAS System                 18:23 Tuesday, May 11, 2021
+
+      The maximum record length was 113.
+NOTE: The data set VOCAB.RELATIONSHIP_TEMP has 548 observations and 6 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.00 seconds
+      
+
+
+NOTE: The infile "\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\VOCABULARY.csv" is:
+      Filename=\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\VOCABULARY.csv,
+      RECFM=V,LRECL=32767,File Size (bytes)=2896,
+      Last Modified=21Jan2020:16:26:07,
+      Create Time=29Sep2020:12:30:13
+
+NOTE: 34 records were read from the infile 
+"\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\omop_vocab\VOCABULARY.csv".
+      The minimum record length was 37.
+      The maximum record length was 156.
+NOTE: The data set VOCAB.VOCABULARY_TEMP has 34 observations and 5 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.00 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table VOCAB.CONCEPT_IN created, with 399810 rows and 10 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           5.75 seconds
+      cpu time            2.95 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table VOCAB.CONCEPT_ANCESTOR_IN created, with 2288302 rows and 4 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           4.95 seconds
+      cpu time            5.46 seconds
+      
+
+NOTE: Table VOCAB.CONCEPT_CLASS_IN created, with 380 rows and 3 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.06 seconds
+      cpu time            0.03 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table VOCAB.CONCEPT_RELATIONSHIP_IN created, with 3171054 rows and 6 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           11.40 seconds
+      cpu time            11.23 seconds
+      
+7                                           The SAS System                 18:23 Tuesday, May 11, 2021
+
+
+NOTE: SAS threaded sort was used.
+NOTE: Table VOCAB.CONCEPT_SYNONYM_IN created, with 537782 rows and 3 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           26.29 seconds
+      cpu time            10.82 seconds
+      
+
+NOTE: Table VOCAB.DOMAIN_IN created, with 47 rows and 3 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.07 seconds
+      cpu time            0.03 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table VOCAB.DRUG_STRENGTH_IN created, with 0 rows and 12 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.06 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: Table VOCAB.RELATIONSHIP_IN created, with 548 rows and 6 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.09 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: Table VOCAB.VOCABULARY_IN created, with 34 rows and 5 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.06 seconds
+      cpu time            0.03 seconds
+      
+
+                                    Directory
+
+Libref             VOCAB                                                          
+Engine             V9                                                             
+Physical Name      \\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\omop_vocab
+Filename           \\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\omop_vocab
+Owner Name         CS\C150664                                                     
+File Size          0KB                                                            
+File Size (bytes)  0                                                              
+
+
+                               Member
+ #  Name                       Type       File Size  Last Modified
+
+ 1  CONCEPT                    DATA           153MB  05/11/2021 16:48:50        
+ 2  CONCEPT_ANCESTOR           DATA            70MB  05/11/2021 16:51:54        
+8                                           The SAS System                 18:23 Tuesday, May 11, 2021
+
+ 3  CONCEPT_ANCESTOR_BKUP      DATA             4GB  05/11/2021 10:41:20        
+ 4  CONCEPT_ANCESTOR_IN        DATA            70MB  05/11/2021 18:23:52        
+ 5  CONCEPT_ANCESTOR_TEMP      DATA            70MB  05/11/2021 18:23:33        
+ 6  CONCEPT_BKUP               DATA             2GB  05/11/2021 10:38:24        
+ 7  CONCEPT_CLASS              DATA           192KB  05/11/2021 16:51:54        
+ 8  CONCEPT_CLASS_BKUP         DATA           192KB  05/11/2021 10:41:21        
+ 9  CONCEPT_CLASS_IN           DATA           192KB  05/11/2021 18:23:52        
+10  CONCEPT_CLASS_TEMP         DATA           192KB  05/11/2021 18:23:33        
+11  CONCEPT_IN                 DATA           153MB  05/11/2021 18:23:47        
+12  CONCEPT_RELATIONSHIP       DATA           194MB  05/11/2021 16:53:16        
+13  CONCEPT_RELATIONSHIP_BKUP  DATA             2GB  05/11/2021 10:43:00        
+14  CONCEPT_RELATIONSHIP_IN    DATA           194MB  05/11/2021 18:24:03        
+15  CONCEPT_RELATIONSHIP_TEMP  DATA           194MB  05/11/2021 18:23:36        
+16  CONCEPT_SYNONYM            DATA           525MB  05/11/2021 16:58:08        
+17  CONCEPT_SYNONYM_BKUP       DATA             6GB  05/11/2021 10:47:13        
+18  CONCEPT_SYNONYM_IN         DATA           525MB  05/11/2021 18:24:30        
+19  CONCEPT_SYNONYM_TEMP       DATA           525MB  05/11/2021 18:23:41        
+20  CONCEPT_TEMP               DATA           153MB  05/11/2021 18:23:31        
+21  DOMAIN                     DATA           128KB  05/11/2021 16:58:09        
+22  DOMAIN_BKUP                DATA           128KB  05/11/2021 10:47:14        
+23  DOMAIN_IN                  DATA           128KB  05/11/2021 18:24:30        
+24  DOMAIN_TEMP                DATA           128KB  05/11/2021 18:23:41        
+25  DRUG_STRENGTH              DATA           128KB  05/11/2021 16:58:14        
+26  DRUG_STRENGTH_BKUP         DATA           223MB  05/11/2021 10:47:19        
+27  DRUG_STRENGTH_IN           DATA           128KB  05/11/2021 18:24:30        
+28  DRUG_STRENGTH_TEMP         DATA           128KB  05/11/2021 18:23:41        
+29  RELATIONSHIP               DATA           256KB  05/11/2021 16:58:14        
+30  RELATIONSHIP_BKUP          DATA           256KB  05/11/2021 10:47:19        
+31  RELATIONSHIP_IN            DATA           256KB  05/11/2021 18:24:30        
+32  RELATIONSHIP_TEMP          DATA           256KB  05/11/2021 18:23:41        
+33  VOCABULARY                 DATA           128KB  05/11/2021 16:58:14        
+34  VOCABULARY_BKUP            DATA           128KB  05/11/2021 10:47:20        
+                               Member
+ #  Name                       Type       File Size  Last Modified
+
+35  VOCABULARY_IN              DATA           128KB  05/11/2021 18:24:30        
+36  VOCABULARY_TEMP            DATA           128KB  05/11/2021 18:23:41        
+
+NOTE: Deleting VOCAB.VOCABULARY_BKUP (memtype=DATA).
+NOTE: Deleting VOCAB.RELATIONSHIP_BKUP (memtype=DATA).
+NOTE: Deleting VOCAB.DRUG_STRENGTH_BKUP (memtype=DATA).
+NOTE: Deleting VOCAB.DOMAIN_BKUP (memtype=DATA).
+NOTE: Deleting VOCAB.CONCEPT_SYNONYM_BKUP (memtype=DATA).
+NOTE: Deleting VOCAB.CONCEPT_RELATIONSHIP_BKUP (memtype=DATA).
+NOTE: Deleting VOCAB.CONCEPT_CLASS_BKUP (memtype=DATA).
+NOTE: Deleting VOCAB.CONCEPT_ANCESTOR_BKUP (memtype=DATA).
+NOTE: Deleting VOCAB.CONCEPT_BKUP (memtype=DATA).
+
+NOTE: PROCEDURE DATASETS used (Total process time):
+      real time           0.45 seconds
+      cpu time            0.15 seconds
+      
+
+                                    Directory
+9                                           The SAS System                 18:23 Tuesday, May 11, 2021
+
+
+Libref             VOCAB                                                          
+Engine             V9                                                             
+Physical Name      \\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\omop_vocab
+Filename           \\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\omop_vocab
+Owner Name         CS\C150664                                                     
+File Size          0KB                                                            
+File Size (bytes)  0                                                              
+
+
+                               Member
+ #  Name                       Type       File Size  Last Modified
+
+ 1  CONCEPT                    DATA           153MB  05/11/2021 16:48:50        
+ 2  CONCEPT_ANCESTOR           DATA            70MB  05/11/2021 16:51:54        
+ 3  CONCEPT_ANCESTOR_IN        DATA            70MB  05/11/2021 18:23:52        
+ 4  CONCEPT_ANCESTOR_TEMP      DATA            70MB  05/11/2021 18:23:33        
+ 5  CONCEPT_CLASS              DATA           192KB  05/11/2021 16:51:54        
+ 6  CONCEPT_CLASS_IN           DATA           192KB  05/11/2021 18:23:52        
+ 7  CONCEPT_CLASS_TEMP         DATA           192KB  05/11/2021 18:23:33        
+ 8  CONCEPT_IN                 DATA           153MB  05/11/2021 18:23:47        
+ 9  CONCEPT_RELATIONSHIP       DATA           194MB  05/11/2021 16:53:16        
+10  CONCEPT_RELATIONSHIP_IN    DATA           194MB  05/11/2021 18:24:03        
+11  CONCEPT_RELATIONSHIP_TEMP  DATA           194MB  05/11/2021 18:23:36        
+12  CONCEPT_SYNONYM            DATA           525MB  05/11/2021 16:58:08        
+13  CONCEPT_SYNONYM_IN         DATA           525MB  05/11/2021 18:24:30        
+14  CONCEPT_SYNONYM_TEMP       DATA           525MB  05/11/2021 18:23:41        
+15  CONCEPT_TEMP               DATA           153MB  05/11/2021 18:23:31        
+16  DOMAIN                     DATA           128KB  05/11/2021 16:58:09        
+17  DOMAIN_IN                  DATA           128KB  05/11/2021 18:24:30        
+18  DOMAIN_TEMP                DATA           128KB  05/11/2021 18:23:41        
+19  DRUG_STRENGTH              DATA           128KB  05/11/2021 16:58:14        
+20  DRUG_STRENGTH_IN           DATA           128KB  05/11/2021 18:24:30        
+21  DRUG_STRENGTH_TEMP         DATA           128KB  05/11/2021 18:23:41        
+                               Member
+ #  Name                       Type       File Size  Last Modified
+
+22  RELATIONSHIP               DATA           256KB  05/11/2021 16:58:14        
+23  RELATIONSHIP_IN            DATA           256KB  05/11/2021 18:24:30        
+24  RELATIONSHIP_TEMP          DATA           256KB  05/11/2021 18:23:41        
+25  VOCABULARY                 DATA           128KB  05/11/2021 16:58:14        
+26  VOCABULARY_IN              DATA           128KB  05/11/2021 18:24:30        
+27  VOCABULARY_TEMP            DATA           128KB  05/11/2021 18:23:41        
+
+NOTE: Deleting VOCAB.VOCABULARY_TEMP (memtype=DATA).
+NOTE: Deleting VOCAB.RELATIONSHIP_TEMP (memtype=DATA).
+NOTE: Deleting VOCAB.DRUG_STRENGTH_TEMP (memtype=DATA).
+NOTE: Deleting VOCAB.DOMAIN_TEMP (memtype=DATA).
+NOTE: Deleting VOCAB.CONCEPT_SYNONYM_TEMP (memtype=DATA).
+NOTE: Deleting VOCAB.CONCEPT_RELATIONSHIP_TEMP (memtype=DATA).
+NOTE: Deleting VOCAB.CONCEPT_CLASS_TEMP (memtype=DATA).
+NOTE: Deleting VOCAB.CONCEPT_ANCESTOR_TEMP (memtype=DATA).
+NOTE: Deleting VOCAB.CONCEPT_TEMP (memtype=DATA).
+
+10                                          The SAS System                 18:23 Tuesday, May 11, 2021
+
+NOTE: PROCEDURE DATASETS used (Total process time):
+      real time           0.15 seconds
+      cpu time            0.01 seconds
+      
+
+                                    Directory
+
+Libref             VOCAB                                                          
+Engine             V9                                                             
+Physical Name      \\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\omop_vocab
+Filename           \\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\omop_vocab
+Owner Name         CS\C150664                                                     
+File Size          0KB                                                            
+File Size (bytes)  0                                                              
+
+
+                             Member
+ #  Name                     Type       File Size  Last Modified
+
+ 1  CONCEPT                  DATA           153MB  05/11/2021 16:48:50        
+ 2  CONCEPT_ANCESTOR         DATA            70MB  05/11/2021 16:51:54        
+ 3  CONCEPT_ANCESTOR_IN      DATA            70MB  05/11/2021 18:23:52        
+ 4  CONCEPT_CLASS            DATA           192KB  05/11/2021 16:51:54        
+ 5  CONCEPT_CLASS_IN         DATA           192KB  05/11/2021 18:23:52        
+ 6  CONCEPT_IN               DATA           153MB  05/11/2021 18:23:47        
+ 7  CONCEPT_RELATIONSHIP     DATA           194MB  05/11/2021 16:53:16        
+ 8  CONCEPT_RELATIONSHIP_IN  DATA           194MB  05/11/2021 18:24:03        
+ 9  CONCEPT_SYNONYM          DATA           525MB  05/11/2021 16:58:08        
+10  CONCEPT_SYNONYM_IN       DATA           525MB  05/11/2021 18:24:30        
+11  DOMAIN                   DATA           128KB  05/11/2021 16:58:09        
+12  DOMAIN_IN                DATA           128KB  05/11/2021 18:24:30        
+13  DRUG_STRENGTH            DATA           128KB  05/11/2021 16:58:14        
+14  DRUG_STRENGTH_IN         DATA           128KB  05/11/2021 18:24:30        
+15  RELATIONSHIP             DATA           256KB  05/11/2021 16:58:14        
+16  RELATIONSHIP_IN          DATA           256KB  05/11/2021 18:24:30        
+17  VOCABULARY               DATA           128KB  05/11/2021 16:58:14        
+                             Member
+ #  Name                     Type       File Size  Last Modified
+
+18  VOCABULARY_IN            DATA           128KB  05/11/2021 18:24:30        
+
+NOTE: Changing the name VOCAB.VOCABULARY to VOCAB.VOCABULARY_BKUP (memtype=DATA).
+NOTE: Changing the name VOCAB.RELATIONSHIP to VOCAB.RELATIONSHIP_BKUP (memtype=DATA).
+NOTE: Changing the name VOCAB.DRUG_STRENGTH to VOCAB.DRUG_STRENGTH_BKUP (memtype=DATA).
+NOTE: Changing the name VOCAB.DOMAIN to VOCAB.DOMAIN_BKUP (memtype=DATA).
+NOTE: Changing the name VOCAB.CONCEPT_SYNONYM to VOCAB.CONCEPT_SYNONYM_BKUP (memtype=DATA).
+NOTE: Changing the name VOCAB.CONCEPT_RELATIONSHIP to VOCAB.CONCEPT_RELATIONSHIP_BKUP (memtype=DATA).
+NOTE: Changing the name VOCAB.CONCEPT_CLASS to VOCAB.CONCEPT_CLASS_BKUP (memtype=DATA).
+NOTE: Changing the name VOCAB.CONCEPT_ANCESTOR to VOCAB.CONCEPT_ANCESTOR_BKUP (memtype=DATA).
+NOTE: Changing the name VOCAB.CONCEPT to VOCAB.CONCEPT_BKUP (memtype=DATA).
+
+NOTE: PROCEDURE DATASETS used (Total process time):
+      real time           0.17 seconds
+      cpu time            0.06 seconds
+11                                          The SAS System                 18:23 Tuesday, May 11, 2021
+
+      
+
+                                    Directory
+
+Libref             VOCAB                                                          
+Engine             V9                                                             
+Physical Name      \\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\omop_vocab
+Filename           \\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\omop_vocab
+Owner Name         CS\C150664                                                     
+File Size          0KB                                                            
+File Size (bytes)  0                                                              
+
+
+                               Member
+ #  Name                       Type       File Size  Last Modified
+
+ 1  CONCEPT_ANCESTOR_BKUP      DATA            70MB  05/11/2021 16:51:54        
+ 2  CONCEPT_ANCESTOR_IN        DATA            70MB  05/11/2021 18:23:52        
+ 3  CONCEPT_BKUP               DATA           153MB  05/11/2021 16:48:50        
+ 4  CONCEPT_CLASS_BKUP         DATA           192KB  05/11/2021 16:51:54        
+ 5  CONCEPT_CLASS_IN           DATA           192KB  05/11/2021 18:23:52        
+ 6  CONCEPT_IN                 DATA           153MB  05/11/2021 18:23:47        
+ 7  CONCEPT_RELATIONSHIP_BKUP  DATA           194MB  05/11/2021 16:53:16        
+ 8  CONCEPT_RELATIONSHIP_IN    DATA           194MB  05/11/2021 18:24:03        
+ 9  CONCEPT_SYNONYM_BKUP       DATA           525MB  05/11/2021 16:58:08        
+10  CONCEPT_SYNONYM_IN         DATA           525MB  05/11/2021 18:24:30        
+11  DOMAIN_BKUP                DATA           128KB  05/11/2021 16:58:09        
+12  DOMAIN_IN                  DATA           128KB  05/11/2021 18:24:30        
+13  DRUG_STRENGTH_BKUP         DATA           128KB  05/11/2021 16:58:14        
+14  DRUG_STRENGTH_IN           DATA           128KB  05/11/2021 18:24:30        
+15  RELATIONSHIP_BKUP          DATA           256KB  05/11/2021 16:58:14        
+16  RELATIONSHIP_IN            DATA           256KB  05/11/2021 18:24:30        
+17  VOCABULARY_BKUP            DATA           128KB  05/11/2021 16:58:14        
+18  VOCABULARY_IN              DATA           128KB  05/11/2021 18:24:30        
+
+NOTE: Changing the name VOCAB.VOCABULARY_IN to VOCAB.VOCABULARY (memtype=DATA).
+NOTE: Changing the name VOCAB.RELATIONSHIP_IN to VOCAB.RELATIONSHIP (memtype=DATA).
+NOTE: Changing the name VOCAB.DRUG_STRENGTH_IN to VOCAB.DRUG_STRENGTH (memtype=DATA).
+NOTE: Changing the name VOCAB.DOMAIN_IN to VOCAB.DOMAIN (memtype=DATA).
+NOTE: Changing the name VOCAB.CONCEPT_SYNONYM_IN to VOCAB.CONCEPT_SYNONYM (memtype=DATA).
+NOTE: Changing the name VOCAB.CONCEPT_RELATIONSHIP_IN to VOCAB.CONCEPT_RELATIONSHIP (memtype=DATA).
+NOTE: Changing the name VOCAB.CONCEPT_CLASS_IN to VOCAB.CONCEPT_CLASS (memtype=DATA).
+NOTE: Changing the name VOCAB.CONCEPT_ANCESTOR_IN to VOCAB.CONCEPT_ANCESTOR (memtype=DATA).
+NOTE: Changing the name VOCAB.CONCEPT_IN to VOCAB.CONCEPT (memtype=DATA).
+534   /* Load VDW Codebucket by joining data from VDW Standard Variables and Standard Codes from OMOP 
 Vocabulary */
-238  *  %include "&rt./sas_etl/02-load-VDW-CB.sas";
-239  /* Creates SAS datafiles that represent the code relationships that translate from VDW Codes to 
+535     %include "&rt./sas_etl/02-load-VDW-CB.sas";
+
+NOTE: PROCEDURE DATASETS used (Total process time):
+      real time           0.20 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: SAS threaded sort was used.
+12                                          The SAS System                 18:23 Tuesday, May 11, 2021
+
+NOTE: Table DAT.VDW_CODEBUCKET created, with 193364 rows and 5 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           57.67 seconds
+      cpu time            24.09 seconds
+      
+
+603   /* Creates SAS datafiles that represent the code relationships that translate from VDW Codes to 
 OMOP Codes */
-240  *  %include "&rt./sas_etl/03-load-RCM.sas";
-241  /* An abstraction layer that enables the programmer to choose the source for the VDW, OMOP 
+604     %include "&rt./sas_etl/03-load-RCM.sas";
+NOTE: The "<>" operator is interpreted as "not equals".
+NOTE: SAS threaded sort was used.
+NOTE: Table DAT.VDW_CODEBUCKET_TYPES created, with 53 rows and 4 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           15.17 seconds
+      cpu time            2.60 seconds
+      
+
+NOTE: A CASE expression has no ELSE clause. Cases not accounted for by the WHEN clauses will result 
+in a missing value for the CASE expression.
+NOTE: SAS threaded sort was used.
+NOTE: Table DAT.RCM_UTL_ENCTYPE created, with 9 rows and 8 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           1.73 seconds
+      cpu time            1.96 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table DAT.RCM_UTL_DISCHARGE_STATUS created, with 0 rows and 8 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           1.79 seconds
+      cpu time            1.90 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table DAT.RCM_UTL_ADMIT_SOURCE created, with 0 rows and 8 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           1.73 seconds
+      cpu time            1.90 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table DAT.RCM_PX_PX created, with 192491 rows and 9 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           16.34 seconds
+      cpu time            8.50 seconds
+      
+
+NOTE: Table DAT.RCM_LAB_LOINC created, with 0 rows and 8 columns.
+13                                          The SAS System                 18:23 Tuesday, May 11, 2021
+
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           4.37 seconds
+      cpu time            1.29 seconds
+      
+
+NOTE: A CASE expression has no ELSE clause. Cases not accounted for by the WHEN clauses will result 
+in a missing value for the CASE expression.
+NOTE: SAS threaded sort was used.
+NOTE: Table DAT.RCM_DEM_ETHNICITY created, with 4 rows and 8 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           3.14 seconds
+      cpu time            1.90 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table DAT.RCM_DEM_RACE created, with 0 rows and 8 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           2.65 seconds
+      cpu time            3.01 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table DAT.RCM_DEM_SEX_ADMIN created, with 0 rows and 8 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.34 seconds
+      cpu time            0.29 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table DAT.RCM_PRV_SPECIALTY created, with 0 rows and 8 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           13.00 seconds
+      cpu time            1.59 seconds
+      
+
+NOTE: Table DAT.RCM_RX_NDC created, with 0 rows and 8 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           11.79 seconds
+      cpu time            1.48 seconds
+      
+
+NOTE: Table DAT.RCM_DX_DX created, with 0 rows and 9 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           1.32 seconds
+      cpu time            1.26 seconds
+      
+
+14                                          The SAS System                 18:23 Tuesday, May 11, 2021
+
+NOTE: Table DAT.RCM_COD_COD created, with 0 rows and 9 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           1.31 seconds
+      cpu time            1.28 seconds
+      
+
+NOTE: A CASE expression has no ELSE clause. Cases not accounted for by the WHEN clauses will result 
+in a missing value for the CASE expression.
+NOTE: The execution of this query involves performing one or more Cartesian product joins that can 
+not be optimized.
+NOTE: SAS threaded sort was used.
+NOTE: Table DAT.RCM_DTH_DEATHTYPE created, with 21 rows and 8 columns.
+
+NOTE: At least one W.D format was too small for the number to be printed. The decimal may be shifted 
+by the "BEST" format.
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           5.68 seconds
+      cpu time            2.89 seconds
+      
+
+NOTE: The execution of this query involves performing one or more Cartesian product joins that can 
+not be optimized.
+NOTE: SAS threaded sort was used.
+NOTE: Table DAT.RCM_UTL_POS created, with 0 rows and 11 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           4.07 seconds
+      cpu time            3.32 seconds
+      
+
+1126  /* An abstraction layer that enables the programmer to choose the source for the VDW, OMOP 
 Vocabulary and RCM */
-242    %include "&rt./sas_etl/rcm_vdw_vars.sas";
+1127    %include "&rt./sas_etl/rcm_vdw_vars.sas";
 NOTE: A byte-order mark in the file 
 "\\home.ghc.org\home$\weekjm1\HCSRN-VDW-to-OHDSI-OMOP\\sas_etl\1-load-OMOP.sas" (for fileref 
-"#LN00039") 
+"#LN00051") 
       indicates that the data is encoded in "utf-16le".  This encoding will be used to process the 
 file.
-310  /* Creates the Primary OMOP Primary Tables as SAS data files and stores in the omop_files folder 
-*/
-311    %include "&rt./sas_etl/1-load-OMOP.sas";
+1195  /* Creates the Primary OMOP Primary Tables as SAS data files and stores in the omop_files 
+folder */
+1196    %include "&rt./sas_etl/1-load-OMOP.sas";
 NOTE: SAS threaded sort was used.
 NOTE: Table OMOP.LOCATION created, with 135640 rows and 8 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           2.93 seconds
-      cpu time            0.51 seconds
+      real time           0.70 seconds
+      cpu time            0.49 seconds
       
 
 NOTE: Table OMOP.LOCATION_POS_BRIDGE created, with 218142 rows and 2 columns.
 
-4                                           The SAS System                 15:15 Tuesday, May 11, 2021
-
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           14.35 seconds
+      real time           3.93 seconds
+15                                          The SAS System                 18:23 Tuesday, May 11, 2021
+
       cpu time            0.54 seconds
       
 
 NOTE: SAS threaded sort was used.
-NOTE: Table WORK.UNQ_CARE_SITE created, with 211334 rows and 5 columns.
+NOTE: Table WORK.UNQ_CARE_SITE created, with 0 rows and 5 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           2.26 seconds
-      cpu time            1.10 seconds
+      real time           0.64 seconds
+      cpu time            0.45 seconds
       
 
-NOTE: Table OMOP.CARE_SITE created, with 211334 rows and 6 columns.
+NOTE: Table OMOP.CARE_SITE created, with 0 rows and 6 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           0.25 seconds
-      cpu time            0.18 seconds
+      real time           0.10 seconds
+      cpu time            0.01 seconds
       
 
 NOTE: SAS threaded sort was used.
 NOTE: Table WORK.UNQ_PROVIDER created, with 296936 rows and 12 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           2.67 seconds
-      cpu time            2.60 seconds
+      real time           2.03 seconds
+      cpu time            2.37 seconds
       
 
 NOTE: Table OMOP.PROVIDER created, with 296936 rows and 13 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           1.75 seconds
-      cpu time            1.34 seconds
+      real time           1.62 seconds
+      cpu time            1.26 seconds
       
 
 NOTE: A CASE expression has no ELSE clause. Cases not accounted for by the WHEN clauses will result 
 in a missing value for the CASE expression.
 NOTE: SAS threaded sort was used.
+NOTE: Invalid (or missing) arguments to the YEAR function have caused the function to return a 
+missing value.
+NOTE: Invalid (or missing) arguments to the MONTH function have caused the function to return a 
+missing value.
+NOTE: Invalid (or missing) arguments to the DAY function have caused the function to return a missing 
+value.
 WARNING: Statement terminated early due to OUTOBS=100 option.
 NOTE: Table OMOP.PERSON created, with 100 rows and 18 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           14.32 seconds
-      cpu time            14.23 seconds
+      real time           12.79 seconds
+      cpu time            14.20 seconds
       
 
 NOTE: SAS threaded sort was used.
-NOTE: Table OMOP.VISIT_OCCURRENCE created, with 6737 rows and 17 columns.
+NOTE: Table OMOP.VISIT_OCCURRENCE created, with 0 rows and 17 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           15.47 seconds
+16                                          The SAS System                 18:23 Tuesday, May 11, 2021
+
+      real time           5.73 seconds
+      cpu time            0.15 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table OMOP.CONDITION_OCCURRENCE created, with 0 rows and 15 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           26.53 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table OMOP.PROCEDURE_OCCURRENCE created, with 0 rows and 13 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           10.75 seconds
+      cpu time            0.09 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table OMOP.DEATH created, with 81 rows and 8 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           2.89 seconds
+      cpu time            2.35 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table OMOP.DRUG_EXPOSURE created, with 8659 rows and 22 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           5.56 seconds
       cpu time            0.34 seconds
       
 
-5                                           The SAS System                 15:15 Tuesday, May 11, 2021
-
 NOTE: SAS threaded sort was used.
-NOTE: Table OMOP.CONDITION_OCCURRENCE created, with 13925 rows and 15 columns.
+NOTE: Table OMOP.SPECIMEN created, with 10219 rows and 15 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           27.84 seconds
-      cpu time            1.29 seconds
+      real time           7.26 seconds
+      cpu time            0.54 seconds
       
 
-NOTE: SAS threaded sort was used.
-NOTE: Table OMOP.PROCEDURE_OCCURRENCE created, with 16307 rows and 13 columns.
+NOTE: Table OMOP.PAYER_PLAN_PERIOD created, with 640 rows and 7 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           45.92 seconds
-      cpu time            3.26 seconds
-      
-
-NOTE: SAS threaded sort was used.
-NOTE: Table OMOP.DEATH created, with 78 rows and 8 columns.
-
-NOTE: PROCEDURE SQL used (Total process time):
-      real time           34.82 seconds
-      cpu time            3.20 seconds
-      
-
-NOTE: SAS threaded sort was used.
-NOTE: Table OMOP.DRUG_EXPOSURE created, with 10220 rows and 22 columns.
-
-NOTE: PROCEDURE SQL used (Total process time):
-      real time           1:01.92
-      cpu time            6.82 seconds
-      
-
-NOTE: SAS threaded sort was used.
-NOTE: Table OMOP.SPECIMEN created, with 9138 rows and 15 columns.
-
-NOTE: PROCEDURE SQL used (Total process time):
-      real time           31.23 seconds
-      cpu time            4.45 seconds
-      
-
-NOTE: Table OMOP.PAYER_PLAN_PERIOD created, with 658 rows and 7 columns.
-
-NOTE: PROCEDURE SQL used (Total process time):
-      real time           2.09 seconds
-      cpu time            0.01 seconds
+      real time           0.96 seconds
+      cpu time            0.03 seconds
       
 
 NOTE: SAS threaded sort was used.
 NOTE: Table OMOP.OBSERVATION_PERIOD created, with 100 rows and 7 columns.
 
+17                                          The SAS System                 18:23 Tuesday, May 11, 2021
+
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           0.15 seconds
+      real time           0.07 seconds
       cpu time            0.03 seconds
       
-6                                           The SAS System                 15:15 Tuesday, May 11, 2021
-
 
 NOTE: SAS threaded sort was used.
 NOTE: Invalid string.
 NOTE: Invalid argument to function INPUT. Missing values may be generated.
-NOTE: Table WORK.TMP_MEASUREMENT_LABS created, with 9179 rows and 18 columns.
+NOTE: Table WORK.TMP_MEASUREMENT_LABS created, with 8521 rows and 18 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           22.00 seconds
-      cpu time            1.35 seconds
+      real time           4.25 seconds
+      cpu time            0.23 seconds
       
 
 NOTE: SAS threaded sort was used.
-NOTE: Table WORK.TMP_MEAS_VITALS_HT_EST created, with 1009 rows and 17 columns.
+NOTE: Table WORK.TMP_MEAS_VITALS_HT_EST created, with 1011 rows and 17 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           4.18 seconds
+      real time           1.09 seconds
       cpu time            0.04 seconds
       
 
 NOTE: SAS threaded sort was used.
-NOTE: Table WORK.TMP_MEAS_VITALS_HT created, with 412 rows and 17 columns.
+NOTE: Table WORK.TMP_MEAS_VITALS_HT created, with 341 rows and 17 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           2.50 seconds
-      cpu time            0.04 seconds
+      real time           0.79 seconds
+      cpu time            0.00 seconds
       
 
 NOTE: SAS threaded sort was used.
-NOTE: Table WORK.TMP_MEAS_VITALS_WT created, with 851 rows and 17 columns.
+NOTE: Table WORK.TMP_MEAS_VITALS_WT created, with 724 rows and 17 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           2.42 seconds
+      real time           0.95 seconds
       cpu time            0.01 seconds
       
 
 NOTE: SAS threaded sort was used.
-NOTE: Table WORK.TMP_MEAS_VITALS_WT_EST created, with 1013 rows and 17 columns.
+NOTE: Table WORK.TMP_MEAS_VITALS_WT_EST created, with 1025 rows and 17 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           2.57 seconds
+      real time           1.35 seconds
+      cpu time            0.00 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.TMP_MEAS_VITALS_BMI created, with 1011 rows and 17 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           1.23 seconds
+      cpu time            0.01 seconds
+      
+18                                          The SAS System                 18:23 Tuesday, May 11, 2021
+
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.TMP_MEAS_VITALS_BPD created, with 896 rows and 17 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           1.42 seconds
+      cpu time            0.06 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.TMP_MEAS_VITALS_BPS created, with 896 rows and 17 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           1.32 seconds
       cpu time            0.01 seconds
       
 
 NOTE: SAS threaded sort was used.
-NOTE: Table WORK.TMP_MEAS_VITALS_BMI created, with 1009 rows and 17 columns.
+NOTE: Table WORK.TMP_MEAS_VITALS_PULSE created, with 852 rows and 17 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           1.98 seconds
-      cpu time            0.04 seconds
-      
-
-NOTE: SAS threaded sort was used.
-NOTE: Table WORK.TMP_MEAS_VITALS_BPD created, with 831 rows and 17 columns.
-
-7                                           The SAS System                 15:15 Tuesday, May 11, 2021
-
-NOTE: PROCEDURE SQL used (Total process time):
-      real time           2.28 seconds
-      cpu time            0.01 seconds
-      
-
-NOTE: SAS threaded sort was used.
-NOTE: Table WORK.TMP_MEAS_VITALS_BPS created, with 831 rows and 17 columns.
-
-NOTE: PROCEDURE SQL used (Total process time):
-      real time           2.78 seconds
-      cpu time            0.04 seconds
-      
-
-NOTE: SAS threaded sort was used.
-NOTE: Table WORK.TMP_MEAS_VITALS_PULSE created, with 869 rows and 17 columns.
-
-NOTE: PROCEDURE SQL used (Total process time):
-      real time           2.50 seconds
-      cpu time            0.03 seconds
-      
-
-NOTE: SAS threaded sort was used.
-NOTE: Table WORK.TMP_MEAS_VITALS_PREG created, with 0 rows and 17 columns.
-
-NOTE: PROCEDURE SQL used (Total process time):
-      real time           1.98 seconds
-      cpu time            0.01 seconds
+      real time           1.06 seconds
+      cpu time            0.00 seconds
       
 
 NOTE: SAS threaded sort was used.
 NOTE: Invalid time value
 NOTE: Invalid argument to function INPUT. Missing values may be generated.
-NOTE: Table OMOP.MEASUREMENT created, with 14660 rows and 18 columns.
+NOTE: Table OMOP.MEASUREMENT created, with 13765 rows and 18 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           0.23 seconds
+      real time           0.21 seconds
       cpu time            0.07 seconds
       
 
-1152  /* Creates the OMOP Era Tables */
-1153    %include "&rt./sas_etl/2-load-OMOP-Era.sas";
-NOTE: SAS threaded sort was used.
-NOTE: Table WORK.CTE_CONDITION_TRGT created, with 13925 rows and 6 columns.
-
-NOTE: PROCEDURE SQL used (Total process time):
-      real time           0.06 seconds
-      cpu time            0.01 seconds
-      
-
-NOTE: Table WORK.CTE_CONDCNT_B created, with 1928 rows and 2 columns.
-
-NOTE: PROCEDURE SQL used (Total process time):
-      real time           0.04 seconds
-      cpu time            0.03 seconds
-8                                           The SAS System                 15:15 Tuesday, May 11, 2021
-
-      
-
-NOTE: Table WORK.CTE_CONDCNT_A created, with 1928 rows and 3 columns.
-
-NOTE: PROCEDURE SQL used (Total process time):
-      real time           0.01 seconds
-      cpu time            0.01 seconds
-      
-
-NOTE: SAS threaded sort was used.
-NOTE: Table WORK.CTE_CONDITION_DATA created, with 27850 rows and 5 columns.
-
-NOTE: PROCEDURE SQL used (Total process time):
-      real time           0.06 seconds
-      cpu time            0.04 seconds
-      
-
-NOTE: SAS threaded sort was used.
-NOTE: Table WORK.CTE_CONDITION_ORD created, with 27850 rows and 6 columns.
+2040  /* Creates the OMOP Era Tables */
+2041    %include "&rt./sas_etl/2-load-OMOP-Era.sas";
+NOTE: Table WORK.CTE_CONDITION_TRGT created, with 0 rows and 6 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
       real time           0.03 seconds
       cpu time            0.00 seconds
       
 
-NOTE: Table WORK.CTE_ENDDATES created, with 1 rows and 5 columns.
+NOTE: Table WORK.CTE_CONDCNT_B created, with 0 rows and 2 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           0.03 seconds
-      cpu time            0.01 seconds
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+NOTE: Table WORK.CTE_CONDCNT_A created, with 0 rows and 3 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+19                                          The SAS System                 18:23 Tuesday, May 11, 2021
+
+      real time           0.01 seconds
+      cpu time            0.00 seconds
       
 
 NOTE: SAS threaded sort was used.
-NOTE: Table WORK.CTE_CONDITION_END created, with 9255 rows and 6 columns.
-
-NOTE: PROCEDURE SQL used (Total process time):
-      real time           0.06 seconds
-      cpu time            0.06 seconds
-      
-
-NOTE: Table OMOP.CONDITION_ERA created, with 9255 rows and 6 columns.
-
-NOTE: PROCEDURE SQL used (Total process time):
-      real time           0.06 seconds
-      cpu time            0.01 seconds
-      
-
-NOTE: SAS threaded sort was used.
-NOTE: Table WORK.DTE_DRUG_TARGET created, with 10220 rows and 10 columns.
-
-NOTE: PROCEDURE SQL used (Total process time):
-      real time           19.72 seconds
-      cpu time            1.71 seconds
-      
-9                                           The SAS System                 15:15 Tuesday, May 11, 2021
-
-
-NOTE: SAS threaded sort was used.
-NOTE: Table WORK.DTE_DSTNCTDOSE_B created, with 2225 rows and 4 columns.
+NOTE: Table WORK.CTE_CONDITION_DATA created, with 0 rows and 5 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
       real time           0.04 seconds
-      cpu time            0.01 seconds
+      cpu time            0.00 seconds
       
 
-NOTE: Table WORK.DTE_DSTNCTDOSE_A created, with 2225 rows and 5 columns.
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.CTE_CONDITION_ORD created, with 0 rows and 6 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
       real time           0.03 seconds
       cpu time            0.03 seconds
       
 
-NOTE: SAS threaded sort was used.
-NOTE: Table WORK.DTE_DOSE_DATA created, with 20440 rows and 7 columns.
+NOTE: Table WORK.CTE_ENDDATES created, with 0 rows and 5 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           0.04 seconds
-      cpu time            0.04 seconds
+      real time           0.00 seconds
+      cpu time            0.00 seconds
       
 
 NOTE: SAS threaded sort was used.
-NOTE: Table WORK.DTE_DOSE_ORD created, with 20440 rows and 8 columns.
+NOTE: Table WORK.CTE_CONDITION_END created, with 0 rows and 6 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.00 seconds
+      
+
+NOTE: Table OMOP.CONDITION_ERA created, with 0 rows and 6 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.00 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.DTE_DRUG_TARGET created, with 8659 rows and 10 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.07 seconds
+      cpu time            0.00 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.DTE_DSTNCTDOSE_B created, with 73 rows and 4 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+20                                          The SAS System                 18:23 Tuesday, May 11, 2021
+
+      real time           0.04 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: Table WORK.DTE_DSTNCTDOSE_A created, with 73 rows and 5 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.01 seconds
+      cpu time            0.00 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.DTE_DOSE_DATA created, with 17318 rows and 7 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.04 seconds
+      cpu time            0.00 seconds
+      
+
+NOTE: SAS threaded sort was used.
+NOTE: Table WORK.DTE_DOSE_ORD created, with 17318 rows and 8 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
       real time           0.03 seconds
-      cpu time            0.04 seconds
+      cpu time            0.01 seconds
       
 
 NOTE: Table WORK.DTE_ENDDATES created, with 1 rows and 7 columns.
@@ -487,57 +1098,57 @@ NOTE: PROCEDURE SQL used (Total process time):
       
 
 NOTE: SAS threaded sort was used.
-NOTE: Table WORK.DTE_DOSE_ERA_END created, with 1 rows and 6 columns.
+NOTE: Table WORK.DTE_DOSE_ERA_END created, with 32 rows and 6 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
       real time           0.04 seconds
       cpu time            0.01 seconds
       
 
-NOTE: Table WORK.DOSE_ERA created, with 1 rows and 7 columns.
+NOTE: Table WORK.DOSE_ERA created, with 32 rows and 7 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
       real time           0.01 seconds
       cpu time            0.00 seconds
       
 
-10                                          The SAS System                 15:15 Tuesday, May 11, 2021
-
 NOTE: SAS threaded sort was used.
-NOTE: Table WORK.DXE_RX_TARGET created, with 10220 rows and 6 columns.
-
-NOTE: PROCEDURE SQL used (Total process time):
-      real time           17.53 seconds
-      cpu time            1.31 seconds
-      
-
-NOTE: Table WORK.DXE_DSTNCTRX_B created, with 2225 rows and 2 columns.
+NOTE: Table WORK.DXE_RX_TARGET created, with 8659 rows and 6 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
       real time           0.03 seconds
-      cpu time            0.00 seconds
+21                                          The SAS System                 18:23 Tuesday, May 11, 2021
+
+      cpu time            0.03 seconds
       
 
-NOTE: Table WORK.DXE_DSTNCTRX_A created, with 2225 rows and 3 columns.
+NOTE: Table WORK.DXE_DSTNCTRX_B created, with 73 rows and 2 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
       real time           0.03 seconds
+      cpu time            0.01 seconds
+      
+
+NOTE: Table WORK.DXE_DSTNCTRX_A created, with 73 rows and 3 columns.
+
+NOTE: PROCEDURE SQL used (Total process time):
+      real time           0.01 seconds
       cpu time            0.00 seconds
       
 
-NOTE: Table WORK.DXE_RX_DATA created, with 20440 rows and 5 columns.
+NOTE: Table WORK.DXE_RX_DATA created, with 17318 rows and 5 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           0.04 seconds
-      cpu time            0.01 seconds
+      real time           0.06 seconds
+      cpu time            0.03 seconds
       
 
 NOTE: SAS threaded sort was used.
-NOTE: Table WORK.DXE_RX_ORD created, with 20440 rows and 6 columns.
+NOTE: Table WORK.DXE_RX_ORD created, with 17318 rows and 6 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           0.04 seconds
-      cpu time            0.01 seconds
+      real time           0.03 seconds
+      cpu time            0.03 seconds
       
 
 NOTE: Table WORK.DXE_ENDDATES created, with 1 rows and 5 columns.
@@ -548,27 +1159,27 @@ NOTE: PROCEDURE SQL used (Total process time):
       
 
 NOTE: SAS threaded sort was used.
-NOTE: Table WORK.DXE_DRUG_ERA_END created, with 4 rows and 6 columns.
+NOTE: Table WORK.DXE_DRUG_ERA_END created, with 11 rows and 6 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
       real time           0.04 seconds
-      cpu time            0.03 seconds
+      cpu time            0.01 seconds
       
 
-NOTE: Table OMOP.DRUG_ERA created, with 4 rows and 7 columns.
-
-11                                          The SAS System                 15:15 Tuesday, May 11, 2021
+NOTE: Table OMOP.DRUG_ERA created, with 11 rows and 7 columns.
 
 NOTE: PROCEDURE SQL used (Total process time):
-      real time           0.06 seconds
+      real time           0.04 seconds
       cpu time            0.00 seconds
       
 
+22                                          The SAS System                 18:23 Tuesday, May 11, 2021
+
 NOTE: Remote submit to GHRIDWIP complete.
 NOTE: SAS Institute Inc., SAS Campus Drive, Cary, NC USA 27513-2414
-12                                          The SAS System                 15:15 Tuesday, May 11, 2021
+23                                          The SAS System                 18:23 Tuesday, May 11, 2021
 
 NOTE: The SAS System used:
-      real time           5:54.21
-      cpu time            1.20 seconds
+      real time           5:07.67
+      cpu time            1.09 seconds
       
