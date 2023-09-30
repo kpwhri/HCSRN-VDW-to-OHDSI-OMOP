@@ -16,7 +16,7 @@ proc sql;
     select code, code_type, code_desc, code_source from dat.vdw_standard_codes
     union
     select concept_code as code, 'ICD09CM' as code_type, concept_name as code_desc, 'OMOP_DIAGNOSIS' as code_source
-    from vocab.concept where lower(vocabulary_id) = 'icd09cm'
+    from vocab.concept where lower(vocabulary_id) = 'icd9cm'
     union
     select concept_code as code, 'ICD10CM' as code_type, concept_name as code_desc, 'OMOP_DIAGNOSIS' as code_source
     from vocab.concept where lower(vocabulary_id) = 'icd10cm'
